@@ -1,12 +1,14 @@
-function PlaceCard({isPremium, imagePath, priceValue, isActive, cardName, starsCount, cardType}: {
-    isPremium: boolean;
-    imagePath: string;
-    priceValue: number;
-    isActive: boolean;
-    cardName: string;
-    starsCount: number;
-    cardType: string;
-    }): JSX.Element {
+type PlaceCardProps = {
+  isPremium: boolean;
+  imagePath: string;
+  priceValue: number;
+  isActive: boolean;
+  cardName: string;
+  starsCount: number;
+  cardType: string;
+}
+
+function PlaceCard({isPremium, imagePath, priceValue, isActive, cardName, starsCount, cardType}: PlaceCardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {isPremium ?
