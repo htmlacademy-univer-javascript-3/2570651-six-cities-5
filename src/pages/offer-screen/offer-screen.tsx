@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
 import CommentSendingForm from '@components/comment-sending-form/comment-sending-form';
 import { Offers } from '../../types/offer';
+import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 
 type OfferScreenProps = {
   offers: Offers;
@@ -11,10 +12,10 @@ type OfferScreenProps = {
 
 export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const offer = offers.find((item) => item.id === id);
+  const offer = offers.find((item) => item.id === id)!;
 
   if (!offer) {
-    return <></>; //надо переделать будет, чтобы перенаправлял на 404
+    return <NotFoundScreen />;
   }
 
   return (
