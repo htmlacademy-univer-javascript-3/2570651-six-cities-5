@@ -1,32 +1,21 @@
+import { User } from './user';
+import { City } from './city';
+import { Location } from './location';
+
 export type OfferInDetails = {
     id: string;
     title: string;
     type: string;
     price: number;
-    city: {
-        name: string;
-        location: {
-            latitude: number;
-            longitude: number;
-            zoom: number;
-            };
-        };
-    location: {
-        latitude: number;
-        longitude: number;
-        zoom: number;
-        };
+    city: City;
+    location: Location;
     isFavorite: boolean;
     isPremium: boolean;
     rating: number;
     description: string;
     bedrooms: number;
     goods: string[];
-    host: {
-        name: string;
-        avatarUrl: string;
-        isPro: boolean;
-        };
+    host: User;
     images: string[];
     maxAdults: number;
 }

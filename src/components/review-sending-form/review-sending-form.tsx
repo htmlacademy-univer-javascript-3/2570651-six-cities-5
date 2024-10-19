@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CommentSendingForm(): JSX.Element {
+export default function ReviewSendingForm(): JSX.Element {
   const [formData, setFormData] = React.useState({
     review: '',
     rating: 0

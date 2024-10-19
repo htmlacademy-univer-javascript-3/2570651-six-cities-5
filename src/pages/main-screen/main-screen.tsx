@@ -1,9 +1,8 @@
-import PlaceCard from '@components/place-card/place-card';
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
+import HeaderNav from '@components/header-nav/header-nav';
 import { Offers } from '../../types/offer';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '@const';
+import OffersList from '@components/offers-list/offers-list';
 
 type MainScreenProps = {
     placesCount: number;
@@ -20,23 +19,7 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Root}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav offers={offers}/>
           </div>
         </div>
       </header>
@@ -99,9 +82,7 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => (<PlaceCard key={offer.id} offer={offer}/>))}
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

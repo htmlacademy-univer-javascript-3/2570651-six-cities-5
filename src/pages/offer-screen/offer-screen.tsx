@@ -1,7 +1,8 @@
 import Logo from '@components/logo/logo';
+import HeaderNav from '@components/header-nav/header-nav';
 import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
-import CommentSendingForm from '@components/comment-sending-form/comment-sending-form';
+import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import { Offers } from '../../types/offer';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 
@@ -12,7 +13,7 @@ type OfferScreenProps = {
 
 export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const offer = offers.find((item) => item.id === id)!;
+  const offer = offers.find((item) => item.id === id);
 
   if (!offer) {
     return <NotFoundScreen />;
@@ -27,23 +28,7 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav offers={offers}/>
           </div>
         </div>
       </header>
@@ -101,7 +86,7 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: `calc(100% / 5 * ${offer.rating})`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -204,7 +189,7 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
                     </div>
                   </li>
                 </ul>
-                <CommentSendingForm />
+                <ReviewSendingForm />
               </section>
             </div>
           </div>
