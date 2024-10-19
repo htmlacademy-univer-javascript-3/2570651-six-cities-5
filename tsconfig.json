@@ -4,6 +4,7 @@
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
+      "@types/*": ["src/types/*"],
       "@const": ["src/const"]
     },
     "target": "ES2020",
