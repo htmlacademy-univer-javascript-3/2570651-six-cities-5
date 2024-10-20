@@ -79,9 +79,9 @@ export default function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Ele
                                 </div>
                               </div>
                               <h2 className="place-card__name">
-                                <a href="#">{favorite.title}</a>
+                                <Link to={`${AppRoute.Offer}/${favorite.id}`}>{favorite.title}</Link>
                               </h2>
-                              <p className="place-card__type">{favorite.type}</p>
+                              <p className="place-card__type">{favorite.type[0].toUpperCase() + favorite.type.substring(1)}</p>
                             </div>
                           </article>
                         ))}

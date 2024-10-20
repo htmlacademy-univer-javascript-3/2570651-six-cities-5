@@ -2,26 +2,27 @@ import { Offers } from '../types/offer';
 
 export const offers: Offers = [
   {
-    'id': '6af6f711-c28d-4121-82cd-e0b462a27f00',
-    'title': 'Beautiful & luxurious studio at great location',
+    'id': 'aaeb9d82-459d-48ca-8f44-518912791ff0',
+    'title': 'Beautiful & luxurious apartment at great location',
     'type': 'apartment',
-    'price': 120,
+    'price': 241,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/13.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 52.35514938496378,
-        'longitude': 4.673877537499948,
-        'zoom': 8
-      }},
+        'latitude': 52.37454,
+        'longitude': 4.897976,
+        'zoom': 13
+      }
+    },
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
+      'latitude': 52.36554,
+      'longitude': 4.911976,
+      'zoom': 16
     },
     'isFavorite': true,
     'isPremium': false,
-    'rating': 4,
-    'previewImage': 'img/apartment-01.jpg'
+    'rating': 1.7
   },
   {
     'id': 'e50c65bc-1822-4ae8-9807-bb050b84e4fb',

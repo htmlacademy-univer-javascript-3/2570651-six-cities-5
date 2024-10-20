@@ -3,7 +3,7 @@ import { AppRoute } from '@const';
 import { Offers } from '../../types/offer';
 
 type HeaderNavProps = {
-  offers: Offers; // Передаем offers как пропс
+  offers: Offers;
 };
 
 export default function HeaderNav({offers}: HeaderNavProps): JSX.Element {
