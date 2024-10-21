@@ -1,12 +1,15 @@
-import PlaceCard from '@components/place-card/place-card';
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
+import HeaderNav from '@components/header-nav/header-nav';
+import { Offers } from '../../types/offer';
+import OffersList from '@components/offers-list/offers-list';
 
 type MainScreenProps = {
     placesCount: number;
+    offers: Offers;
 }
 
-export default function MainScreen({placesCount}: MainScreenProps): JSX.Element {
+export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -16,23 +19,7 @@ export default function MainScreen({placesCount}: MainScreenProps): JSX.Element 
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav offers={offers}/>
           </div>
         </div>
       </header>
@@ -95,57 +82,7 @@ export default function MainScreen({placesCount}: MainScreenProps): JSX.Element 
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard
-                  isPremium
-                  imagePath="img/apartment-01.jpg"
-                  priceValue={120}
-                  isActive={false}
-                  cardName="Beautiful &amp; luxurious apartment at great location"
-                  starsCount={4}
-                  cardType="Apartment"
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath="img/room.jpg"
-                  priceValue={80}
-                  isActive
-                  cardName="Wood and stone place"
-                  starsCount={4}
-                  cardType="Room"
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath="img/apartment-02.jpg"
-                  priceValue={132}
-                  isActive={false}
-                  starsCount={4}
-                  cardName='Canal View Prinsengracht'
-                  cardType='Apartment'
-                />
-
-                <PlaceCard
-                  isPremium
-                  imagePath="img/apartment-03.jpg"
-                  priceValue={180}
-                  isActive={false}
-                  starsCount={5}
-                  cardName='Nice, cozy, warm big bed apartment'
-                  cardType='Apartment'
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath="img/room.jpg"
-                  priceValue={80}
-                  isActive
-                  starsCount={4}
-                  cardName='Wood and stone place'
-                  cardType='Room'
-                />
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
