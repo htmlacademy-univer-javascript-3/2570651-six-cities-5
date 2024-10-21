@@ -12,7 +12,7 @@ type FavoritesScreenProps = {
 export default function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
   const favorites = offers.filter((offer) => offer.isFavorite);
 
-  const cities = Array.from(new Set(favorites.map((offer) => offer.city.name)));
+  const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
 
   return (
     <div className="page">
@@ -48,12 +48,10 @@ export default function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Ele
                         .filter((favorite) => favorite.city.name === city)
                         .map((favorite) => (
                           <article key={favorite.id} className="favorites__card place-card">
-                            {favorite.isPremium ?
+                            {favorite.isPremium &&
                               <div className="place-card__mark">
                                 <span>Premium</span>
-                              </div>
-                              :
-                              null}
+                              </div>}
                             <div className="favorites__image-wrapper place-card__image-wrapper">
                               <Link to={`${AppRoute.Offer}/${favorite.id}`}>
                                 <img className="place-card__image" src={favorite.previewImage} width="150" height="110" alt="Place image" />
