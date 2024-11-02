@@ -9,7 +9,7 @@ export default function NotFoundScreen(): JSX.Element {
         <title>6 cities: page not found</title>
       </Helmet>
 
-      <section className="error__page" style={{textAlign: 'center', marginTop: '15%'}}>
+      <section className="error__page" style={{textAlign: 'center', marginTop: '15%', fontSize: '28px'}}>
         <h1 className="error__name">Error 404: Page not found</h1>
         <Link to={AppRoute.Root}>Return to home page</Link>
       </section>
