@@ -1,5 +1,6 @@
 import { Offers } from '../../types/offer';
 import PlaceCard from '@components/place-card/place-card';
+import { CardType } from '@const';
 import { useState, useEffect } from 'react';
 
 type OffersListProps = {
@@ -31,6 +32,7 @@ export default function OffersList({offers, onActiveOfferChange}: OffersListProp
           offer={offer}
           onMouseEnter={() => handleMouseEnter(offer.id)}
           onMouseLeave={handleMouseLeave}
+          cardType={CardType.Regular}
         />))}
     </div>
   );

@@ -2,27 +2,42 @@ import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
 import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
-import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import { Offers } from '../../types/offer';
+import { Review } from '../../types/review';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
+import ReviewsList from '@components/review-list/review-list';
+import Map from '@components/map/map';
+import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
+import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
+import { useState } from 'react';
+import { MapClassName } from '@const';
 
 type OfferScreenProps = {
   offers: Offers;
+  reviews: Review[];
 };
 
-
-export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
+export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const params = useParams();
-  const offer = offers.find((item) => item.id === params.id);
+  const mainOffer = offers.find((item) => item.id === params.id); // не забыть, что mainOffer должен быть оранжевым
 
-  if (!offer) {
+  if (!mainOffer) {
     return <NotFoundScreen />;
   }
+
+  const nearbyOffers = offers.filter(
+    (offer) => offer.city.name === mainOffer.city.name && offer.id !== mainOffer.id
+  ); //в будущем переделать, в данный момент "неподалеку" все с одного города
+
+  const limitedNearbyOffers = nearbyOffers.slice(0, 3);
+
+  const selectedOffer = nearbyOffers.find((offer) => offer.id === activeOfferId);
 
   return (
     <div className="page">
       <Helmet>
-        <title>6 cities: offer {offer.id}</title>
+        <title>6 cities: offer {mainOffer.id}</title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -59,27 +74,27 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {offer.isPremium &&
+              {mainOffer.isPremium &&
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offer.title}
+                  {mainOffer.title}
                 </h1>
-                <button className={`offer__bookmark-button ${offer.isFavorite && 'offer__bookmark-button--active'} button`} type="button">
+                <button className={`offer__bookmark-button ${mainOffer.isFavorite && 'offer__bookmark-button--active'} button`} type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+                  <span className="visually-hidden">{mainOffer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                 </button>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `calc(100% / 5 * ${offer.rating})`}}></span>
+                  <span style={{width: `calc(100% / 5 * ${mainOffer.rating})`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offer.rating}</span>
+                <span className="offer__rating-value rating__value">{mainOffer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
@@ -93,7 +108,7 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{offer.price}</b>
+                <b className="offer__price-value">&euro;{mainOffer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
@@ -154,141 +169,21 @@ export default function OfferScreen({ offers }: OfferScreenProps): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
-                      </div>
-                      <span className="reviews__user-name">
-                            Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                            A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews ? reviews.length : 0}</span></h2>
+                <ReviewsList reviews={reviews}/>
                 <ReviewSendingForm />
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map
+            city={mainOffer.city}
+            offers={[mainOffer, ...limitedNearbyOffers]}
+            selectedOffer={selectedOffer}
+            className={MapClassName.Offer}
+          />
         </section>
         <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image"/>
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;80</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">In bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Wood and stone place</a>
-                  </h2>
-                  <p className="place-card__type">Room</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image"/>
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;132</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Canal View Prinsengracht</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="place-card__mark">
-                  <span>Premium</span>
-                </div>
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href="#">
-                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image"/>
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;180</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{width: '100%'}}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href="#">Nice, cozy, warm big bed apartment</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-            </div>
-          </section>
+          <NearbyOffersList offers={nearbyOffers} onActiveOfferChange={setActiveOfferId}/>
         </div>
       </main>
     </div>

@@ -5,6 +5,7 @@ import { Offers } from '../../types/offer';
 import OffersList from '@components/offers-list/offers-list';
 import Map from '@components/map/map';
 import { useState } from 'react';
+import { MapClassName } from '@const';
 
 type MainScreenProps = {
     placesCount: number;
@@ -95,6 +96,7 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
                 city={offers[0].city}
                 offers={offers}
                 selectedOffer={selectedOffer}
+                className={MapClassName.Main}
               />
             </div>
           </div>

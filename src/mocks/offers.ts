@@ -29,7 +29,7 @@ export const offers: Offers = [
     'title': 'Wood and stone place',
     'type': 'room',
     'price': 286,
-    'previewImage': 'img/room.jpg',
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/13.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -52,7 +52,7 @@ export const offers: Offers = [
     'title': 'Canal View Prinsengracht',
     'type': 'apartment',
     'price': 169,
-    'previewImage': 'img/apartment-02.jpg',
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/6.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -75,7 +75,7 @@ export const offers: Offers = [
     'title': 'Nice, cozy, warm big bed apartment',
     'type': 'apartment',
     'price': 469,
-    'previewImage': 'img/apartment-03.jpg',
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/5.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {

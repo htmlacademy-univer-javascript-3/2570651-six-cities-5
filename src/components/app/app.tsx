@@ -8,13 +8,15 @@ import OfferScreen from '@pages/offer-screen/offer-screen';
 import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 import { Offers } from '../../types/offer';
+import { Reviews } from '../../types/review';
 
 type AppProps = {
     placesCount: number;
     offers: Offers;
+    reviews: Reviews;
 }
 
-export default function App({placesCount, offers}: AppProps): JSX.Element {
+export default function App({placesCount, offers, reviews}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -39,7 +41,7 @@ export default function App({placesCount, offers}: AppProps): JSX.Element {
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
-            element={<OfferScreen offers={offers}/>}
+            element={<OfferScreen offers={offers} reviews={reviews}/>}
           />
           <Route
             path='*'
