@@ -17,7 +17,7 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
   const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
 
   return (
-    <div className="page page--gray page--main">  
+    <div className="page page--gray page--main">
       <Helmet>
         <title>6 cities</title>
       </Helmet>
@@ -91,11 +91,11 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
               <OffersList offers={offers} onActiveOfferChange={setActiveOfferId}/>
             </section>
             <div className="cities__right-section">
-                <Map  
-                    city={offers[0].city}
-                    offers={offers}
-                    selectedOffer={selectedOffer}
-                  /> 
+              <Map
+                city={offers[0].city}
+                offers={offers}
+                selectedOffer={selectedOffer}
+              />
             </div>
           </div>
         </div>

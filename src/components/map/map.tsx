@@ -25,36 +25,36 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-    const {city, offers, selectedOffer} = props;
-  
-    const mapRef = useRef(null);
-    const map = useMap(mapRef, city);
-  
-    useEffect(() => {
-      if (map) {
-        const markerLayer = layerGroup().addTo(map);
-        offers.forEach((offer) => {
-          const marker = new Marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude
-          });
-  
-          marker
-            .setIcon(
-              selectedOffer !== undefined && offer.id === selectedOffer.id
-                ? currentCustomIcon
-                : defaultCustomIcon
-            )
-            .addTo(markerLayer);
+  const {city, offers, selectedOffer} = props;
+
+  const mapRef = useRef(null);
+  const map = useMap(mapRef, city);
+
+  useEffect(() => {
+    if (map) {
+      const markerLayer = layerGroup().addTo(map);
+      offers.forEach((offer) => {
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
         });
-  
-        return () => {
-          map.removeLayer(markerLayer);
-        };
-      }
-    }, [map, offers, selectedOffer]);
-  
-    return <div className="cities__map map" style={{height: '500px'}} ref={mapRef}></div>;
-  }
-  
-  export default Map;
+
+        marker
+          .setIcon(
+            selectedOffer !== undefined && offer.id === selectedOffer.id
+              ? currentCustomIcon
+              : defaultCustomIcon
+          )
+          .addTo(markerLayer);
+      });
+
+      return () => {
+        map.removeLayer(markerLayer);
+      };
+    }
+  }, [map, offers, selectedOffer]);
+
+  return <div className="cities__map map" style={{height: '500px'}} ref={mapRef}></div>;
+}
+
+export default Map;
