@@ -14,7 +14,8 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'),
       '@types': path.resolve(__dirname, 'src/types'),
       '@mocks': path.resolve(__dirname, 'src/mocks'),
-      '@const': path.resolve(__dirname, 'src/const')
+      '@const': path.resolve(__dirname, 'src/const'),
+      "@hooks": path.resolve(__dirname, 'src/hooks')
     },
   },
   test: {
