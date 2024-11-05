@@ -2,11 +2,11 @@ import { Offers } from '../types/offer';
 
 export const offers: Offers = [
   {
-    'id': 'aaeb9d82-459d-48ca-8f44-518912791ff0',
+    'id': 'ff8cedf6-64eb-48f2-843c-69b5e78c9aca',
     'title': 'Beautiful & luxurious apartment at great location',
-    'type': 'apartment',
-    'price': 241,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/13.jpg',
+    'type': 'house',
+    'price': 596,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/19.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -16,20 +16,20 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 52.367540000000005,
+      'longitude': 4.883976,
       'zoom': 16
     },
-    'isFavorite': true,
-    'isPremium': false,
-    'rating': 1.7
+    'isFavorite': false,
+    'isPremium': true,
+    'rating': 4.1
   },
   {
-    'id': 'e50c65bc-1822-4ae8-9807-bb050b84e4fb',
+    'id': '6f621075-9543-484c-b47e-27cdfd6f28db',
     'title': 'Wood and stone place',
-    'type': 'room',
-    'price': 286,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/13.jpg',
+    'type': 'house',
+    'price': 754,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/1.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -39,8 +39,8 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 52.3609553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 52.370540000000005,
+      'longitude': 4.9099759999999995,
       'zoom': 16
     },
     'isFavorite': false,
@@ -48,11 +48,11 @@ export const offers: Offers = [
     'rating': 5
   },
   {
-    'id': '8ac1d09e-81da-444c-b8c4-04b2a4c3219a',
+    'id': '76659d78-c30d-493c-a104-c3b23cb956c6',
     'title': 'Canal View Prinsengracht',
-    'type': 'apartment',
-    'price': 169,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/6.jpg',
+    'type': 'hotel',
+    'price': 349,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/8.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -62,20 +62,20 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.929309666406198,
+      'latitude': 52.364540000000005,
+      'longitude': 4.9019759999999994,
       'zoom': 16
     },
     'isFavorite': false,
     'isPremium': true,
-    'rating': 4.3
+    'rating': 3.8
   },
   {
-    'id': '5589a300-6208-4f52-908b-b8d348b0844e',
+    'id': '9de60f5f-2011-476b-94a6-1cc235325a19',
     'title': 'Nice, cozy, warm big bed apartment',
     'type': 'apartment',
-    'price': 469,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/5.jpg',
+    'price': 209,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/19.jpg',
     'city': {
       'name': 'Amsterdam',
       'location': {
@@ -85,13 +85,13 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 52.3809553943508,
-      'longitude': 4.939309666406198,
+      'latitude': 52.35754,
+      'longitude': 4.9179759999999995,
       'zoom': 16
     },
     'isFavorite': true,
-    'isPremium': false,
-    'rating': 3.8
+    'isPremium': true,
+    'rating': 1.5
   },
   {
     'id': 'f3dac69d-8e54-44c7-b749-91e2be54559b',

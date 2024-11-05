@@ -3,7 +3,8 @@ import HeaderNav from '@components/header-nav/header-nav';
 import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
 import { Offers } from '../../types/offer';
-import { Review } from '../../types/review';
+import { Reviews } from '../../types/review';
+import { OffersInDetails } from '../../types/offerInDetails';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 import ReviewsList from '@components/review-list/review-list';
 import Map from '@components/map/map';
@@ -13,14 +14,16 @@ import { MapClassName } from '@const';
 
 type OfferScreenProps = {
   offers: Offers;
-  reviews: Review[];
+  reviews: Reviews;
+  offersInDetails: OffersInDetails;
 };
 
-export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.Element {
+export default function OfferScreen({ offers, reviews, offersInDetails }: OfferScreenProps): JSX.Element {
   const params = useParams();
   const mainOffer = offers.find((item) => item.id === params.id);
+  const detailedOffer = offersInDetails.find((item) => item.id === params.id);
 
-  if (!mainOffer) {
+  if (!mainOffer || !detailedOffer) {
     return <NotFoundScreen />;
   }
 
@@ -46,24 +49,11 @@ export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {detailedOffer.images.map((image) => (
+                <div key={image} className="offer__image-wrapper">
+                  <img className="offer__image" src={image} alt="Photo studio" />
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
@@ -91,15 +81,9 @@ export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.
                 <span className="offer__rating-value rating__value">{mainOffer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">
-                      Apartment
-                </li>
-                <li className="offer__feature offer__feature--bedrooms">
-                      3 Bedrooms
-                </li>
-                <li className="offer__feature offer__feature--adults">
-                      Max 4 adults
-                </li>
+                <li className="offer__feature offer__feature--entire">{detailedOffer.type}</li>
+                <li className="offer__feature offer__feature--bedrooms">{detailedOffer.bedrooms} Bedrooms</li>
+                <li className="offer__feature offer__feature--adults">Max {detailedOffer.maxAdults} adults</li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">&euro;{mainOffer.price}</b>
@@ -108,58 +92,24 @@ export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                        Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                        Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                        Towels
-                  </li>
-                  <li className="offer__inside-item">
-                        Heating
-                  </li>
-                  <li className="offer__inside-item">
-                        Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                        Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                        Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                        Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                        Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                        Fridge
-                  </li>
+                  {detailedOffer.goods.map((good) => (
+                    <li key={good} className="offer__inside-item">
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                  <div className={`offer__avatar-wrapper ${detailedOffer.host.isPro && 'offer__avatar-wrapper--pro'} user__avatar-wrapper`}>
+                    <img className="offer__avatar user__avatar" src={detailedOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
-                  <span className="offer__user-name">
-                        Angelina
-                  </span>
-                  <span className="offer__user-status">
-                        Pro
-                  </span>
+                  <span className="offer__user-name">{detailedOffer.host.name}</span>
+                  {detailedOffer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
-                  <p className="offer__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="offer__text">
-                        An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+                  <p className="offer__text">{detailedOffer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
