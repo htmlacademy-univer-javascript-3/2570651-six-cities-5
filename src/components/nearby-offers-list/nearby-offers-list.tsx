@@ -1,19 +1,14 @@
 import { Offers } from '../../types/offer';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 type NearbyOffersListProps = {
   offers?: Offers;
-  onActiveOfferChange: (offerId: string | null) => void;
 };
 
-export default function NearbyOffersList({ offers = [], onActiveOfferChange }: NearbyOffersListProps): JSX.Element {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
-  useEffect(() => {
-    onActiveOfferChange(activeOfferId);
-  }, [activeOfferId, onActiveOfferChange]);
+export default function NearbyOffersList({ offers = []}: NearbyOffersListProps): JSX.Element {
+  const [, setActiveOfferId] = useState<string | null>(null);
 
   const handleMouseEnter = (offerId: string) => {
     setActiveOfferId(offerId);

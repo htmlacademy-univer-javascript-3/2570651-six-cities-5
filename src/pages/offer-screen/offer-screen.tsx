@@ -9,7 +9,6 @@ import ReviewsList from '@components/review-list/review-list';
 import Map from '@components/map/map';
 import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
-import { useState } from 'react';
 import { MapClassName } from '@const';
 
 type OfferScreenProps = {
@@ -18,9 +17,8 @@ type OfferScreenProps = {
 };
 
 export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.Element {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const params = useParams();
-  const mainOffer = offers.find((item) => item.id === params.id); // не забыть, что mainOffer должен быть оранжевым
+  const mainOffer = offers.find((item) => item.id === params.id);
 
   if (!mainOffer) {
     return <NotFoundScreen />;
@@ -28,11 +26,7 @@ export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.
 
   const nearbyOffers = offers.filter(
     (offer) => offer.city.name === mainOffer.city.name && offer.id !== mainOffer.id
-  ); //в будущем переделать, в данный момент "неподалеку" все с одного города
-
-  const limitedNearbyOffers = nearbyOffers.slice(0, 3);
-
-  const selectedOffer = nearbyOffers.find((offer) => offer.id === activeOfferId);
+  ).slice(0, 3); //в будущем переделать, в данный момент "неподалеку" все с одного города
 
   return (
     <div className="page">
@@ -177,13 +171,13 @@ export default function OfferScreen({ offers, reviews }: OfferScreenProps): JSX.
           </div>
           <Map
             city={mainOffer.city}
-            offers={[mainOffer, ...limitedNearbyOffers]}
-            selectedOffer={selectedOffer}
+            offers={[mainOffer, ...nearbyOffers]}
+            selectedOffer={mainOffer}
             className={MapClassName.Offer}
           />
         </section>
         <div className="container">
-          <NearbyOffersList offers={nearbyOffers} onActiveOfferChange={setActiveOfferId}/>
+          <NearbyOffersList offers={nearbyOffers}/>
         </div>
       </main>
     </div>
