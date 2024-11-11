@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@components': path.resolve(__dirname, 'src/components'),
-      '@types': path.resolve(__dirname, 'src/types'),
+      '@typings': path.resolve(__dirname, 'src/typings'),
       '@mocks': path.resolve(__dirname, 'src/mocks'),
       '@const': path.resolve(__dirname, 'src/const'),
       "@hooks": path.resolve(__dirname, 'src/hooks'),

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
-import { Offers } from '../../types/offer';
+import { Offers } from '@typings/offer';
 import OffersList from '@components/offers-list/offers-list';
 import Map from '@components/map/map';
 import { useState, useEffect } from 'react';

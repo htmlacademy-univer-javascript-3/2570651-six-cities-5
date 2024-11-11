@@ -1,5 +1,5 @@
 import ReviewItem from '@components/review-item/review-item';
-import { Reviews } from '../../types/review';
+import { Reviews } from '@typings/review';
 
 type ReviewsListProps = {
   reviews: Reviews | undefined;

@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offer';
+import { Offer } from '@typings/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute, CardImageWrapperClass, CardType } from '@const';
 

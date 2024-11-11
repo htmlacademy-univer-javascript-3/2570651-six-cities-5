@@ -4,7 +4,7 @@
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
-      "@types/*": ["src/types/*"],
+      "@typings/*": ["src/typings/*"],
       "@mocks/*": ["src/mocks/*"],
       "@const": ["src/const"],
       "@hooks/*": ["src/hooks/*"],

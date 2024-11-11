@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Offers } from '../types/offer';
-import { Reviews } from '../types/review';
-import { OffersInDetails } from '../types/offerInDetails';
-import { City } from '../types/city';
+import { Offers } from '@typings/offer';
+import { Reviews } from '@typings/review';
+import { OffersInDetails } from '@typings/offerInDetails';
+import { City } from '@typings/city';
 import { SortType } from '@const';
 
 export const setOffersList = createAction<Offers>('offers/setOffersList');

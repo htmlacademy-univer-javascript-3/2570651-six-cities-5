@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@hooks/index';
 import { changeCity } from '@store/action';
-import { City } from '../../types/city';
+import { City } from '@typings/city';
 import { Cities } from '@const';
 
 export default function CitiesList(): JSX.Element {
