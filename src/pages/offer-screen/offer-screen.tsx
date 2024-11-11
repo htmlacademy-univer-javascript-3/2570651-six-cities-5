@@ -2,24 +2,20 @@ import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
 import { Helmet } from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
-import { Offers } from '../../types/offer';
-import { Reviews } from '../../types/review';
-import { OffersInDetails } from '../../types/offerInDetails';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 import ReviewsList from '@components/review-list/review-list';
 import Map from '@components/map/map';
 import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
 import { MapClassName } from '@const';
+import { useAppSelector } from '@hooks/index';
 
-type OfferScreenProps = {
-  offers: Offers;
-  reviews: Reviews;
-  offersInDetails: OffersInDetails;
-};
-
-export default function OfferScreen({ offers, reviews, offersInDetails }: OfferScreenProps): JSX.Element {
+export default function OfferScreen(): JSX.Element {
   const params = useParams();
+  const offers = useAppSelector((state) => state.offersList);
+  const reviews = useAppSelector((state) => state.reviews);
+  const offersInDetails = useAppSelector((state) => state.offersInDetails);
+
   const mainOffer = offers.find((item) => item.id === params.id);
   const detailedOffer = offersInDetails.find((item) => item.id === params.id);
 
