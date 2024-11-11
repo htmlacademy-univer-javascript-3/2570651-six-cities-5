@@ -1,27 +1,22 @@
 import { useAppDispatch } from '@hooks/index';
 import { changeCity } from '@store/action';
+import { City } from '../../types/city';
+import { Cities } from '@const';
 
-type CitiesListProps = {
-  cities: {
-    name: string;
-    id: number;
-  }[];
-};
-
-export default function CitiesList({ cities }: CitiesListProps): JSX.Element {
+export default function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const handleCityChange = (city: string) => {
+  const handleCityChange = (city: City) => {
     dispatch(changeCity(city));
   };
 
   return (
     <ul className="locations__list tabs__list">
-      {cities.map((city) => (
+      {Cities.map((city) => (
         <li
-          key={city.id}
+          key={city.name}
           className="locations__item"
-          onClick={() => handleCityChange(city.name)}
+          onClick={() => handleCityChange(city)}
         >
           <a className="locations__item-link tabs__item" href="#">
             <span>{city.name}</span>

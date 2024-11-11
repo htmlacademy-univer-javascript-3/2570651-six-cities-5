@@ -20,7 +20,7 @@ export const offers: Offers = [
       'longitude': 4.883976,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 4.1
   },
@@ -94,11 +94,11 @@ export const offers: Offers = [
     'rating': 1.5
   },
   {
-    'id': 'f3dac69d-8e54-44c7-b749-91e2be54559b',
-    'title': 'Amazing and Extremely Central Flat',
-    'type': 'room',
-    'price': 225,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
+    'id': 'e4a6c82e-2856-440f-a641-a8f282373bb3',
+    'title': 'Penthouse, 4-5 rooms + 5 balconies',
+    'type': 'apartment',
+    'price': 148,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/10.jpg',
     'city': {
       'name': 'Paris',
       'location': {
@@ -108,20 +108,20 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 48.87561,
-      'longitude': 2.375499,
+      'latitude': 48.87961000000001,
+      'longitude': 2.353499,
       'zoom': 16
     },
     'isFavorite': false,
-    'isPremium': false,
-    'rating': 3.3
+    'isPremium': true,
+    'rating': 2.4
   },
   {
-    'id': '8c7bdf08-58e7-4e41-834f-76abbabf0f72',
+    'id': 'b2b4d30d-bfd4-40cf-aa9f-f733783952dc',
     'title': 'Beautiful & luxurious apartment at great location',
     'type': 'hotel',
-    'price': 442,
-    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/19.jpg',
+    'price': 396,
+    'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/20.jpg',
     'city': {
       'name': 'Paris',
       'location': {
@@ -131,12 +131,12 @@ export const offers: Offers = [
       }
     },
     'location': {
-      'latitude': 48.85761,
-      'longitude': 2.358499,
+      'latitude': 48.834610000000005,
+      'longitude': 2.364499,
       'zoom': 16
     },
     'isFavorite': true,
-    'isPremium': true,
-    'rating': 3
-  },
+    'isPremium': false,
+    'rating': 2.5
+  }
 ];

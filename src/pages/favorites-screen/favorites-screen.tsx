@@ -1,7 +1,7 @@
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
 import { Link } from 'react-router-dom';
-import { CardType } from '@const';
+import { AppRoute, CardType } from '@const';
 import PlaceCard from '@components/place-card/place-card';
 import { useAppSelector } from '@hooks/index';
 
@@ -63,7 +63,7 @@ export default function FavoritesScreen(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <a className="footer__logo-link" href={AppRoute.Root}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </a>
       </footer>
