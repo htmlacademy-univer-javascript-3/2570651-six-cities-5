@@ -7,29 +7,29 @@ import MainScreen from '@pages/main-screen/main-screen';
 import OfferScreen from '@pages/offer-screen/offer-screen';
 import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
-import { Offers } from '../../types/offer';
-import { OffersInDetails } from '../../types/offerInDetails';
-import { Reviews } from '../../types/review';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { setOffersInDetails, setOffersList, setReviews } from '@store/action';
 
-type AppProps = {
-    placesCount: number;
-    offers: Offers;
-    reviews: Reviews;
-    offersInDetails: OffersInDetails;
-}
+export default function App(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
+  const reviews = useAppSelector((state) => state.reviews);
+  const offersInDetails = useAppSelector((state) => state.offersInDetails);
+  const dispatch = useAppDispatch();
+  dispatch(setOffersList(offers));
+  dispatch(setReviews(reviews));
+  dispatch(setOffersInDetails(offersInDetails));
 
-export default function App({placesCount, offers, reviews, offersInDetails}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen placesCount={placesCount} offers={offers}/>}
+            element={<MainScreen/>}
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginScreen />}
+            element={<LoginScreen/>}
           />
           <Route
             path={AppRoute.Favorites}
@@ -37,13 +37,13 @@ export default function App({placesCount, offers, reviews, offersInDetails}: App
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen offers={offers}/>
+                <FavoritesScreen/>
               </PrivateRoute>
             }
           />
           <Route
             path={`${AppRoute.Offer}/:id`}
-            element={<OfferScreen offers={offers} offersInDetails={offersInDetails} reviews={reviews}/>}
+            element={<OfferScreen/>}
           />
           <Route
             path='*'

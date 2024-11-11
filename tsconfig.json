@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@pages/*": ["pages/*"],
-      "@components/*": ["components/*"],
-      "@types/*": ["types/*"],
-      "@mocks/*": ["mocks/*"],
-      "@const": ["const"],
-      "@hooks/*": ["hooks/*"]
+      "@pages/*": ["src/pages/*"],
+      "@components/*": ["src/components/*"],
+      "@types/*": ["src/types/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@const": ["src/const"],
+      "@hooks/*": ["src/hooks/*"],
+      "@store/*": ["src/store/*"]
     },
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -17,7 +18,7 @@
     "typeRoots": [
       ".src/types",
       "vitest/globals", 
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
     ],
 
     /* Bundler mode */

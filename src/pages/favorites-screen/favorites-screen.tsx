@@ -1,15 +1,14 @@
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
-import { Offers } from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { CardType } from '@const';
 import PlaceCard from '@components/place-card/place-card';
+import { useAppSelector } from '@hooks/index';
 
-type FavoritesScreenProps = {
-  offers: Offers;
-};
 
-export default function FavoritesScreen({ offers }: FavoritesScreenProps): JSX.Element {
+export default function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offersList);
+
   const favorites = offers.filter((offer) => offer.isFavorite);
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();
 
