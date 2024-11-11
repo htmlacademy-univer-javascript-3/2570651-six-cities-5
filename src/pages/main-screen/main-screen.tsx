@@ -5,6 +5,7 @@ import { Offers } from '../../types/offer';
 import OffersList from '@components/offers-list/offers-list';
 import Map from '@components/map/map';
 import { useState } from 'react';
+import { MapClassName } from '@const';
 
 type MainScreenProps = {
     placesCount: number;
@@ -88,13 +89,17 @@ export default function MainScreen({placesCount, offers}: MainScreenProps): JSX.
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} onActiveOfferChange={setActiveOfferId}/>
+              <OffersList
+                offers={offers} // в будущем переделать, чтобы выводились предложения с одного города
+                onActiveOfferChange={setActiveOfferId}
+              />
             </section>
             <div className="cities__right-section">
               <Map
-                city={offers[0].city}
+                city={offers[0].city} //в будущем переделать, чтобы город правильно выбирался
                 offers={offers}
                 selectedOffer={selectedOffer}
+                className={MapClassName.Main}
               />
             </div>
           </div>
