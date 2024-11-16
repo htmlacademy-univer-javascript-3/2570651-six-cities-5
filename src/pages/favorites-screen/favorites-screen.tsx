@@ -1,10 +1,9 @@
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
-import { Link } from 'react-router-dom';
-import { CardType } from '@const';
-import PlaceCard from '@components/place-card/place-card';
 import { useAppSelector } from '@hooks/index';
-import FooterLogo from '@components/app/footer-logo/footer-logo';
+import FooterLogo from '@components/footer-logo/footer-logo';
+import FavoritesList from '@components/favorites-list/favorites-list';
+import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 
 
 export default function FavoritesScreen(): JSX.Element {
@@ -24,46 +23,20 @@ export default function FavoritesScreen(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {cities.length > 0 ? (
-                cities.map((city) => (
-                  <li key={city} className="favorites__locations-items">
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <Link className="locations__item-link" to="#">
-                          <span>{city}</span>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="favorites__places">
-                      {favorites
-                        .filter((favorite) => favorite.city.name === city)
-                        .map((favorite) => (
-                          <PlaceCard
-                            key={favorite.id}
-                            offer={favorite}
-                            onMouseEnter={() => {}}
-                            onMouseLeave={() => {}}
-                            cardType={CardType.Favorites}
-                          />
-                        ))}
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <li style={{ textAlign: 'center', marginTop: '15%', fontSize: '32px' }}>
-                  Nothing yet saved
-                </li>
-              )}
-            </ul>
-          </section>
-        </div>
-      </main>
-      <FooterLogo/>
+      {cities.length > 0 ? (
+        <main className="page__main page__main--favorites">
+          <div className="page__favorites-container container">
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <FavoritesList cities={cities} favorites={favorites} />
+            </section>
+          </div>
+        </main>
+      ) : (
+        <FavoritesEmpty />
+      )}
+
+      <FooterLogo />
     </div>
   );
 }

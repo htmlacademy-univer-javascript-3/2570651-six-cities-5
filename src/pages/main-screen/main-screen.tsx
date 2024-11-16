@@ -2,14 +2,12 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
 import { Offers } from '@typings/offer';
-import OffersList from '@components/offers-list/offers-list';
-import Map from '@components/map/map';
 import { useState, useEffect } from 'react';
-import { MapClassName } from '@const';
 import CitiesList from '@components/cities-list/cities-list';
 import { useAppSelector } from '@hooks/index';
 import { SortType } from '@const';
-import SortingOptions from '@components/sorting-options/sorting-options';
+import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
+import CityPlaces from '@components/city-places/city-places';
 
 export default function MainScreen(): JSX.Element {
   const offers = useAppSelector((state) => state.offersList);
@@ -54,7 +52,7 @@ export default function MainScreen(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${currentCityOffers.length === 0 ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -62,25 +60,16 @@ export default function MainScreen(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${currentCityOffers.length} places to stay in ${city.name}`}</b>
-              <SortingOptions />
-              <OffersList
-                offers={currentCityOffers}
-                onActiveOfferChange={setActiveOfferId}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map
-                city={city}
-                offers={currentCityOffers}
-                selectedOffer={selectedOffer}
-                className={MapClassName.Main}
-              />
-            </div>
-          </div>
+          {currentCityOffers.length > 0 ? (
+            <CityPlaces
+              city={city}
+              offers={currentCityOffers}
+              selectedOffer={selectedOffer}
+              onActiveOfferChange={setActiveOfferId}
+            />
+          ) : (
+            <CityPlacesEmpty city={city.name} />
+          )}
         </div>
       </main>
     </div>
