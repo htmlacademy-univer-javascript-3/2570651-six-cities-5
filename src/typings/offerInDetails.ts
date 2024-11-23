@@ -1,6 +1,6 @@
-import { User } from './user';
 import { City } from './city';
 import { Location } from './location';
+import { User } from './review';
 
 export type OfferInDetails = {
     id: string;
