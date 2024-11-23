@@ -1,5 +1,3 @@
-import { User } from './user';
-
 export type Review = {
     id: string;
     date: string;
@@ -7,5 +5,14 @@ export type Review = {
     comment: string;
     rating: number;
 };
+
+export type User = {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+    email: string;
+    token: string;
+};
+
 
 export type Reviews = Review[];
