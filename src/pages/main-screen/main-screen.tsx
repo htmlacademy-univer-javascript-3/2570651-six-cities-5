@@ -10,7 +10,7 @@ import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
 import CityPlaces from '@components/city-places/city-places';
 
 export default function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offersList);
+  const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
   const sortType = useAppSelector((state) => state.sortType);
 

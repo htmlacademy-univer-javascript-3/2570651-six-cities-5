@@ -1,29 +1,31 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setOffersList, changeCity, setReviews, setOffersInDetails, setSortType } from './action';
+import { loadOffers, changeCity, loadOffersInDetails , loadReviews, setSortType, requireAuthorization, setError, setOffersDataLoadingStatus } from './action';
+import { AuthorizationStatus, Cities, SortType } from '@const';
 import { Offers } from '@typings/offer';
 import { Reviews } from '@typings/review';
-import { OffersInDetails } from '@typings/offerInDetails';
 import { City } from '@typings/city';
-import { offers } from '@mocks/offers';
-import { reviews } from '@mocks/reviews';
-import { offersInDetails } from '@mocks/offersInDetails';
-import { Cities, SortType } from '@const';
-
+import { OffersInDetails } from '@typings/offerInDetails';
 
 type StateType = {
   city: City;
-  offersList: Offers;
-  reviews: Reviews;
+  offers: Offers;
   offersInDetails: OffersInDetails;
+  reviews: Reviews;
   sortType: SortType;
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+  isOffersDataLoading: boolean;
 };
 
 const initialState: StateType = {
   city: Cities[0],
-  offersList: [],
-  reviews: [],
+  offers: [],
   offersInDetails: [],
-  sortType: SortType.Popular
+  reviews: [],
+  sortType: SortType.Popular,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  isOffersDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -31,16 +33,25 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, { payload }) => {
       state.city = { ...payload };
     })
-    .addCase(setOffersList, (state) => {
-      state.offersList = offers;
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
     })
-    .addCase(setReviews, (state) => {
-      state.reviews = reviews;
+    .addCase(loadOffersInDetails, (state, action) => {
+      state.offersInDetails = action.payload;
     })
-    .addCase(setOffersInDetails, (state) => {
-      state.offersInDetails = offersInDetails;
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
     })
     .addCase(setSortType, (state, { payload }) => {
       state.sortType = payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
     });
 });

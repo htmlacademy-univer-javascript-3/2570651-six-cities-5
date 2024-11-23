@@ -7,7 +7,7 @@ import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 
 
 export default function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offersList);
+  const offers = useAppSelector((state) => state.offers);
 
   const favorites = offers.filter((offer) => offer.isFavorite);
   const cities = Array.from(new Set(favorites.map((offer) => offer.city.name))).sort();

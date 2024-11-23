@@ -11,7 +11,7 @@ import { MapClassName } from '@const';
 import { useAppSelector } from '@hooks/index';
 
 export default function OfferScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offersList);
+  const offers = useAppSelector((state) => state.offers);
   const reviews = useAppSelector((state) => state.reviews);
   const offersInDetails = useAppSelector((state) => state.offersInDetails);
 

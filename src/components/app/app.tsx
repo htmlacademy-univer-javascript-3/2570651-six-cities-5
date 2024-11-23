@@ -1,4 +1,6 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import HistoryRouter from '@components/history-route/history-route';
+import browserHistory from '@browser-history';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '@const';
 import PrivateRoute from '@components/private-route/private-route';
@@ -7,21 +9,22 @@ import MainScreen from '@pages/main-screen/main-screen';
 import OfferScreen from '@pages/offer-screen/offer-screen';
 import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { setOffersInDetails, setOffersList, setReviews } from '@store/action';
+import { useAppSelector } from '@hooks/index';
+import LoadingScreen from '@pages/loading-screen/loading-screen';
 
 export default function App(): JSX.Element {
-  const offers = useAppSelector((state) => state.offersList);
-  const reviews = useAppSelector((state) => state.reviews);
-  const offersInDetails = useAppSelector((state) => state.offersInDetails);
-  const dispatch = useAppDispatch();
-  dispatch(setOffersList(offers));
-  dispatch(setReviews(reviews));
-  dispatch(setOffersInDetails(offersInDetails));
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Root}
@@ -35,7 +38,7 @@ export default function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
+                authorizationStatus={authorizationStatus}
               >
                 <FavoritesScreen/>
               </PrivateRoute>
@@ -50,7 +53,7 @@ export default function App(): JSX.Element {
             element={<NotFoundScreen />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
