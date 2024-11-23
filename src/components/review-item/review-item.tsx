@@ -1,4 +1,4 @@
-import { Review } from '../../types/review';
+import { Review } from '@typings/review';
 
 type ReviewItemProps = {
   review: Review;

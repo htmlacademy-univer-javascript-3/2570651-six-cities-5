@@ -11,11 +11,11 @@ import { MapClassName } from '@const';
 import { useAppSelector } from '@hooks/index';
 
 export default function OfferScreen(): JSX.Element {
-  const params = useParams();
   const offers = useAppSelector((state) => state.offersList);
   const reviews = useAppSelector((state) => state.reviews);
   const offersInDetails = useAppSelector((state) => state.offersInDetails);
 
+  const params = useParams();
   const mainOffer = offers.find((item) => item.id === params.id);
   const detailedOffer = offersInDetails.find((item) => item.id === params.id);
 
