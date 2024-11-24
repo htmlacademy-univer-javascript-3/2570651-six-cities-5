@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadOffers, changeCity, loadOfferInDetails, setSortType, requireAuthorization, setError, setOffersDataLoadingStatus, setUserEmail, sendReview, setOfferInDetailsDataLoadingStatus } from './action';
+import { loadOffers, changeCity, loadOfferInDetails, setSortType, requireAuthorization, setError, setOffersDataLoadingStatus, setUserEmail, sendReview, setOfferInDetailsDataLoadingStatus, updateOfferFavoriteStatus } from './action';
 import { AuthorizationStatus, Cities, SortType } from '@const';
 import { Offers } from '@typings/offer';
 import { Reviews } from '@typings/review';
@@ -20,6 +20,7 @@ type StateType = {
   isOffersDataLoading: boolean;
   isOfferInDetailsDataLoading: boolean;
   userEmail: string | null;
+  favoritesCount: number;
 };
 
 const initialState: StateType = {
@@ -36,6 +37,7 @@ const initialState: StateType = {
   isOffersDataLoading: false,
   isOfferInDetailsDataLoading: false,
   userEmail: null,
+  favoritesCount: 0,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -73,5 +75,21 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOfferInDetailsDataLoadingStatus, (state, action) => {
       state.isOfferInDetailsDataLoading = action.payload;
+    })
+    .addCase(updateOfferFavoriteStatus, (state, { payload }) => {
+      const { id, isFavorite } = payload;
+
+      const updateFavoriteStatus = (offers: Offers) => {
+        const offerIndex = offers.findIndex((offer) => offer.id === id);
+        if (offerIndex !== -1) {
+          offers[offerIndex].isFavorite = isFavorite;
+        }
+      };
+
+      updateFavoriteStatus(state.offers);
+      updateFavoriteStatus(state.selectedOffer.nearbyOffers);
+
+      state.favoritesCount = state.offers.filter((offer) => offer.isFavorite).length;
     });
+
 });

@@ -10,7 +10,7 @@ import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list'
 import { AuthorizationStatus, MapClassName } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { useEffect } from 'react';
-import { fetchOfferInDetailsAction } from '@store/api-actions';
+import { fetchOfferInDetailsAction, toggleFavoriteStatusAction } from '@store/api-actions';
 import LoadingScreen from '@pages/loading-screen/loading-screen';
 
 export default function OfferScreen(): JSX.Element {
@@ -22,6 +22,12 @@ export default function OfferScreen(): JSX.Element {
   const isOfferInDetailsDataLoading = useAppSelector((state) => state.isOfferInDetailsDataLoading);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const mainOffer = offers.find((item) => item.id === id);
+
+  const handleFavoriteClick = () => {
+    if (mainOffer) {
+      dispatch(toggleFavoriteStatusAction({ id: mainOffer.id, isFavorite: !mainOffer.isFavorite }));
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -72,7 +78,7 @@ export default function OfferScreen(): JSX.Element {
                 <h1 className="offer__name">
                   {mainOffer.title}
                 </h1>
-                <button className={`offer__bookmark-button ${mainOffer.isFavorite && 'offer__bookmark-button--active'} button`} type="button">
+                <button className={`offer__bookmark-button ${mainOffer.isFavorite && 'offer__bookmark-button--active'} button`} onClick={handleFavoriteClick} type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -133,7 +139,7 @@ export default function OfferScreen(): JSX.Element {
           />
         </section>
         <div className="container">
-          <NearbyOffersList offers={nearbyOffers}/>
+          <NearbyOffersList offers={nearbyOffers.slice(0, 3)}/>
         </div>
       </main>
     </div>

@@ -1,8 +1,8 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '@typings/state';
-import { Offers } from '@typings/offer';
-import { loadOfferInDetails, loadOffers, requireAuthorization, sendReview, setOfferInDetailsDataLoadingStatus, setOffersDataLoadingStatus, setUserEmail } from '@store/action';
+import { Offer, Offers } from '@typings/offer';
+import { loadOfferInDetails, loadOffers, requireAuthorization, sendReview, setOfferInDetailsDataLoadingStatus, setOffersDataLoadingStatus, setUserEmail, updateOfferFavoriteStatus } from '@store/action';
 import {saveToken, dropToken} from '@services/token';
 import {APIRoute, AuthorizationStatus } from '@const';
 import {AuthData} from '@typings/auth-data';
@@ -51,6 +51,7 @@ export const fetchOfferInDetailsAction = createAsyncThunk<void,
       }
     }
   );
+
 
 export const sendReviewAction = createAsyncThunk<void,
   {
@@ -116,3 +117,17 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
+
+export const toggleFavoriteStatusAction = createAsyncThunk<void,
+  { id: string; isFavorite: boolean },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'offer/toggleFavoriteStatus',
+    async ({ id, isFavorite }, { dispatch, extra: api }) => {
+      const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${isFavorite ? 1 : 0}`);
+      dispatch(updateOfferFavoriteStatus({ id: data.id, isFavorite: data.isFavorite }));
+    }
+  );
