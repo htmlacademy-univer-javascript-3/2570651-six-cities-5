@@ -1,33 +1,41 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadOffers, changeCity, loadOffersInDetails , loadReviews, setSortType, requireAuthorization, setError, setOffersDataLoadingStatus, setUserEmail } from './action';
+import { loadOffers, changeCity, loadOfferInDetails, setSortType, requireAuthorization, setError, setOffersDataLoadingStatus, setUserEmail, sendReview, setOfferInDetailsDataLoadingStatus } from './action';
 import { AuthorizationStatus, Cities, SortType } from '@const';
 import { Offers } from '@typings/offer';
 import { Reviews } from '@typings/review';
 import { City } from '@typings/city';
-import { OffersInDetails } from '@typings/offerInDetails';
+import { OfferInDetails } from '@typings/offerInDetails';
 
 type StateType = {
   city: City;
   offers: Offers;
-  offersInDetails: OffersInDetails;
-  reviews: Reviews;
+  selectedOffer: {
+    offerInfo: OfferInDetails | null;
+    nearbyOffers: Offers;
+    reviews: Reviews;
+  };
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   isOffersDataLoading: boolean;
-  userEmail: string;
+  isOfferInDetailsDataLoading: boolean;
+  userEmail: string | null;
 };
 
 const initialState: StateType = {
   city: Cities[0],
   offers: [],
-  offersInDetails: [],
-  reviews: [],
+  selectedOffer: {
+    offerInfo: null,
+    nearbyOffers: [],
+    reviews: [],
+  },
   sortType: SortType.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
-  userEmail: '',
+  isOfferInDetailsDataLoading: false,
+  userEmail: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -38,11 +46,15 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(loadOffersInDetails, (state, action) => {
-      state.offersInDetails = action.payload;
+    .addCase(loadOfferInDetails, (state, { payload }) => {
+      state.selectedOffer = {
+        offerInfo: payload.offerInfo,
+        nearbyOffers: payload.nearestOffers,
+        reviews: payload.reviews
+      };
     })
-    .addCase(loadReviews, (state, action) => {
-      state.reviews = action.payload;
+    .addCase(sendReview, (state, { payload }) => {
+      state.selectedOffer.reviews.push(payload);
     })
     .addCase(setSortType, (state, { payload }) => {
       state.sortType = payload;
@@ -50,13 +62,16 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
+    .addCase(setUserEmail, (state, { payload }) => {
+      state.userEmail = payload;
+    })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
     })
-    .addCase(setUserEmail, (state, { payload }) => {
-      state.userEmail = payload;
+    .addCase(setOfferInDetailsDataLoadingStatus, (state, action) => {
+      state.isOfferInDetailsDataLoading = action.payload;
     });
 });

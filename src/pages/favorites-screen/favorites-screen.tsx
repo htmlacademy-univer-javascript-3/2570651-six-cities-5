@@ -18,7 +18,7 @@ export default function FavoritesScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <HeaderNav offers={offers} />
+            <HeaderNav/>
           </div>
         </div>
       </header>
