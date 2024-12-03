@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
 import { Offers } from '@typings/offer';
+import { memo } from 'react';
 
 interface FavoritesListProps {
   cities: string[];
   favorites: Offers;
 }
 
-export default function FavoritesList({ cities, favorites }: FavoritesListProps): JSX.Element {
+function FavoritesList({ cities, favorites }: FavoritesListProps): JSX.Element {
   return (
     <ul className="favorites__list">
       {cities.map((city) => (
@@ -38,3 +39,6 @@ export default function FavoritesList({ cities, favorites }: FavoritesListProps)
     </ul>
   );
 }
+
+const MemoizedFavoritesList = memo(FavoritesList);
+export default MemoizedFavoritesList;

@@ -1,28 +1,27 @@
 import { Offers } from '@typings/offer';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 
 type OffersListProps = {
     offers: Offers;
     onActiveOfferChange: (offerId: string | null) => void;
 };
 
-
-export default function OffersList({offers, onActiveOfferChange}: OffersListProps): JSX.Element {
+function OffersList({offers, onActiveOfferChange}: OffersListProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   useEffect(() => {
     onActiveOfferChange(activeOfferId);
   }, [activeOfferId, onActiveOfferChange]);
 
-  const handleMouseEnter = (offerId: string) => {
+  const handleMouseEnter = useCallback((offerId: string) => {
     setActiveOfferId(offerId);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setActiveOfferId(null);
-  };
+  }, []);
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -37,3 +36,6 @@ export default function OffersList({offers, onActiveOfferChange}: OffersListProp
     </div>
   );
 }
+
+const MemoizedOffersList = memo(OffersList);
+export default MemoizedOffersList;

@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
-import { Offers } from '@typings/offer';
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import CitiesList from '@components/cities-list/cities-list';
 import { useAppSelector } from '@hooks/index';
 import { SortType } from '@const';
@@ -14,15 +13,13 @@ export default function MainScreen(): JSX.Element {
   const city = useAppSelector((state) => state.city);
   const sortType = useAppSelector((state) => state.sortType);
 
-  const [currentCityOffers, setCurrentCityOffers] = useState<Offers>(offers);
-
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+  const selectedOffer = useMemo(() => offers.find((offer) => offer.id === activeOfferId), [activeOfferId, offers]);
 
-  useEffect(() => {
+  const currentCityOffers = useMemo(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
 
-    const sortedOffers = [...filteredOffers].sort((a, b) => {
+    return [...filteredOffers].sort((a, b) => {
       switch (sortType) {
         case SortType.PriceLowToHigh:
           return a.price - b.price;
@@ -34,8 +31,6 @@ export default function MainScreen(): JSX.Element {
           return 0;
       }
     });
-
-    setCurrentCityOffers(sortedOffers);
   }, [city, offers, sortType]);
 
   return (

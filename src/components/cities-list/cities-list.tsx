@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useAppDispatch } from '@hooks/index';
 import { changeCity } from '@store/action';
 import { City } from '@typings/city';
 import { Cities } from '@const';
 
-export default function CitiesList(): JSX.Element {
+function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
   const [activeCity, setActiveCity] = useState<City | null>(Cities[0]);
 
-  const handleCityChange = (city: City) => {
+  const handleCityChange = useCallback((city: City) => {
     setActiveCity(city);
     dispatch(changeCity(city));
-  };
+  }, [dispatch]);
 
   return (
     <ul className="locations__list tabs__list">
@@ -32,3 +32,6 @@ export default function CitiesList(): JSX.Element {
     </ul>
   );
 }
+
+const MemoizedCitiesList = memo(CitiesList);
+export default MemoizedCitiesList;

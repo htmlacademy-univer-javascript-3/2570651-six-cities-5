@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
+import { memo, useCallback } from 'react';
 
-export default function HeaderNav(): JSX.Element {
+
+function HeaderNav(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const offers = useAppSelector((state) => state.offers);
@@ -11,9 +13,9 @@ export default function HeaderNav(): JSX.Element {
   const userEmail = useAppSelector((state) => state.userEmail);
   const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
-  const handleSignOut = () => {
+  const handleSignOut = useCallback(() => {
     dispatch(logoutAction());
-  };
+  }, [dispatch]);
 
   return (
     <nav className="header__nav">
@@ -47,3 +49,6 @@ export default function HeaderNav(): JSX.Element {
     </nav>
   );
 }
+
+const MemoizedHeaderNav = memo(HeaderNav);
+export default MemoizedHeaderNav;

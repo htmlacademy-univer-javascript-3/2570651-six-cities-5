@@ -1,6 +1,7 @@
 import { AppRoute } from '@const';
+import { memo } from 'react';
 
-export default function FooterLogo(): JSX.Element {
+function FooterLogo(): JSX.Element {
   return (
     <footer className="footer container">
       <a className="footer__logo-link" href={AppRoute.Root}>
@@ -9,3 +10,6 @@ export default function FooterLogo(): JSX.Element {
     </footer>
   );
 }
+
+const MemoizedFooterLogo = memo(FooterLogo);
+export default MemoizedFooterLogo;
