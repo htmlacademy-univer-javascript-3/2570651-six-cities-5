@@ -22,6 +22,7 @@ export type CurrentOfferData = {
     nearbyOffers: Offers;
     reviews: Reviews;
     isOfferInDetailsDataLoading: boolean;
+    favoritesCount: number;
 };
 
 export type OffersData = {

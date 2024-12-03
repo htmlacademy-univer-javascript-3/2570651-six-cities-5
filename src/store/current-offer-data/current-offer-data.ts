@@ -9,7 +9,8 @@ const initialState: CurrentOfferData = {
   offerInfo: null,
   nearbyOffers: [],
   reviews: [],
-  isOfferInDetailsDataLoading: false
+  isOfferInDetailsDataLoading: false,
+  favoritesCount: 0,
 };
 
 export const currentOfferData = createSlice({
@@ -27,7 +28,21 @@ export const currentOfferData = createSlice({
     setOfferInDetailsDataLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isOfferInDetailsDataLoading = action.payload;
     },
+    updateFavoritesNearbyOffers: (state, action: PayloadAction<{ id: string; isFavorite: boolean }>) => {
+      const { id, isFavorite } = action.payload;
+
+      const updateFavoriteStatus = (offers: Offers) => {
+        const offerIndex = offers.findIndex((offer) => offer.id === id);
+        if (offerIndex !== -1) {
+          offers[offerIndex].isFavorite = isFavorite;
+        }
+      };
+
+      updateFavoriteStatus(state.nearbyOffers);
+
+      state.favoritesCount = state.nearbyOffers.filter((offer) => offer.isFavorite).length;
+    },
   },
 });
 
-export const { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus } = currentOfferData.actions;
+export const { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus, updateFavoritesNearbyOffers } = currentOfferData.actions;
