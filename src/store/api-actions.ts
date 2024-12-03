@@ -8,7 +8,7 @@ import {AuthData} from '@typings/auth-data';
 import { Review, Reviews, User } from '@typings/review';
 import { OfferInDetails } from '@typings/offerInDetails';
 import { ReviewFormData } from '@typings/review-form-data';
-import { loadOffers, setOffersDataLoadingStatus, updateFavoritesCount } from './offers-data/offers-data';
+import { loadOffers, setOffersDataLoadingStatus, updateFavorites } from './offers-data/offers-data';
 import { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus } from './current-offer-data/current-offer-data';
 import { setAuthorizationStatus, setUserEmail } from './user-process/user-process';
 
@@ -117,6 +117,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+    dispatch(fetchOffersAction());
   },
 );
 
@@ -130,6 +131,6 @@ export const toggleFavoriteStatusAction = createAsyncThunk<void,
     'offer/toggleFavoriteStatus',
     async ({ id, isFavorite }, { dispatch, extra: api }) => {
       const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${isFavorite ? 1 : 0}`);
-      dispatch(updateFavoritesCount({ id: data.id, isFavorite: data.isFavorite }));
+      dispatch(updateFavorites({ id: data.id, isFavorite: data.isFavorite }));
     }
   );
