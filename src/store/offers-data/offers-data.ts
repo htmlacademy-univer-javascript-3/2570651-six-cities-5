@@ -19,7 +19,7 @@ export const offersData = createSlice({
     setOffersDataLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isOffersDataLoading = action.payload;
     },
-    updateFavoritesOffers: (state, action: PayloadAction<{ id: string; isFavorite: boolean }>) => {
+    updateFavorites: (state, action: PayloadAction<{ id: string; isFavorite: boolean }>) => {
       const { id, isFavorite } = action.payload;
 
       const updateFavoriteStatus = (offers: Offers) => {
@@ -37,4 +37,4 @@ export const offersData = createSlice({
   },
 });
 
-export const { loadOffers, setOffersDataLoadingStatus, updateFavoritesOffers } = offersData.actions;
+export const { loadOffers, setOffersDataLoadingStatus, updateFavorites } = offersData.actions;

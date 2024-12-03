@@ -21,6 +21,7 @@ export default function OfferScreen(): JSX.Element {
   const { id } = useParams();
 
   const offers = useAppSelector(getOffers);
+  const currentOffer = useMemo(() => offers.find((item) => item.id === id), [offers, id]);
 
   const offerInfo = useAppSelector(getOfferInDetails);
   const nearbyOffers = useAppSelector(getNearbyOffers);
@@ -29,15 +30,14 @@ export default function OfferScreen(): JSX.Element {
   const isOfferInDetailsDataLoading = useAppSelector(getOfferInDetailsDataLoadingStatus);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const mainOffer = useMemo(() => offers.find((item) => item.id === id), [offers, id]);
-  const memoizedNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
+  const memoizedNearbyOffers = useMemo(() => nearbyOffers.map((nearbyOffer) =>
+    offers.find((offer) => offer.id === nearbyOffer.id)).filter((offer) => offer !== undefined).slice(0, 3), [nearbyOffers, offers]);
 
   const handleFavoriteClick = useCallback(() => {
-    if (mainOffer) {
-      dispatch(toggleFavoriteStatusAction({ id: mainOffer.id, isFavorite: !mainOffer.isFavorite }));
+    if (currentOffer) {
+      dispatch(toggleFavoriteStatusAction({ id: currentOffer.id, isFavorite: !currentOffer.isFavorite }));
     }
-  }, [dispatch, mainOffer]);
-
+  }, [dispatch, currentOffer]);
 
   useEffect(() => {
     if (id) {
@@ -49,14 +49,14 @@ export default function OfferScreen(): JSX.Element {
     return <LoadingScreen />;
   }
 
-  if (!mainOffer || !offerInfo) {
+  if (!currentOffer || !offerInfo) {
     return <NotFoundScreen />;
   }
 
   return (
     <div className="page">
       <Helmet>
-        <title>6 cities: offer {mainOffer.id}</title>
+        <title>6 cities: offer {currentOffer.id}</title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -80,27 +80,27 @@ export default function OfferScreen(): JSX.Element {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {mainOffer.isPremium &&
+              {currentOffer.isPremium &&
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {mainOffer.title}
+                  {currentOffer.title}
                 </h1>
-                <button className={`offer__bookmark-button ${mainOffer.isFavorite && 'offer__bookmark-button--active'} button`} onClick={handleFavoriteClick} type="button">
+                <button className={`offer__bookmark-button ${currentOffer.isFavorite && 'offer__bookmark-button--active'} button`} onClick={handleFavoriteClick} type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">{mainOffer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+                  <span className="visually-hidden">{currentOffer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                 </button>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `calc(100% / 5 * ${mainOffer.rating})`}}></span>
+                  <span style={{width: `calc(100% / 5 * ${currentOffer.rating})`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{mainOffer.rating}</span>
+                <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{offerInfo.type}</li>
@@ -108,7 +108,7 @@ export default function OfferScreen(): JSX.Element {
                 <li className="offer__feature offer__feature--adults">Max {offerInfo.maxAdults} adults</li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{mainOffer.price}</b>
+                <b className="offer__price-value">&euro;{currentOffer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
@@ -142,9 +142,9 @@ export default function OfferScreen(): JSX.Element {
             </div>
           </div>
           <Map
-            city={mainOffer.city}
-            offers={[mainOffer, ...nearbyOffers.slice(0, 3)]}
-            selectedOffer={mainOffer}
+            city={currentOffer.city}
+            offers={[currentOffer, ...memoizedNearbyOffers]}
+            selectedOffer={currentOffer}
             className={MapClassName.Offer}
           />
         </section>
