@@ -15,6 +15,7 @@ import LoadingScreen from '@pages/loading-screen/loading-screen';
 import { getOffers } from '@store/offers-data/selectors';
 import { getNearbyOffers, getOfferInDetails, getOfferInDetailsDataLoadingStatus, getReviews } from '@store/current-offer-data/selectors';
 import { getAuthorizationStatus } from '@store/user-process/selectors';
+import { Offer } from '@typings/offer';
 
 export default function OfferScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -31,7 +32,8 @@ export default function OfferScreen(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const memoizedNearbyOffers = useMemo(() => nearbyOffers.map((nearbyOffer) =>
-    offers.find((offer) => offer.id === nearbyOffer.id)).filter((offer) => offer !== undefined).slice(0, 3), [nearbyOffers, offers]);
+    offers.find((offer) => offer.id === nearbyOffer.id))
+    .filter((offer): offer is Offer => offer !== undefined).slice(0, 3), [nearbyOffers, offers]);
 
   const handleFavoriteClick = useCallback(() => {
     if (currentOffer) {
