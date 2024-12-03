@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
 import { memo, useCallback } from 'react';
 import { getOffers } from '@store/offers-data/selectors';
-import { getAuthorizationStatus, getUserEmail } from '@store/user-process/selectors';
+import { getAuthorizationStatus, getAvatarUrl, getUserEmail } from '@store/user-process/selectors';
 
 
 function HeaderNav(): JSX.Element {
@@ -13,6 +13,7 @@ function HeaderNav(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userEmail = useAppSelector(getUserEmail);
+  const avatarUrl = useAppSelector(getAvatarUrl);
   const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
   const handleSignOut = useCallback(() => {
@@ -27,6 +28,7 @@ function HeaderNav(): JSX.Element {
             <li className="header__nav-item user">
               <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                 <div className="header__avatar-wrapper user__avatar-wrapper">
+                  <img className="user__avatar" src={`${avatarUrl}`} alt="avatar"/>
                 </div>
                 <span className="header__user-name user__name">{userEmail}</span>
                 <span className="header__favorite-count">{favoritesCount}</span>

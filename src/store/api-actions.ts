@@ -10,7 +10,7 @@ import { OfferInDetails } from '@typings/offerInDetails';
 import { ReviewFormData } from '@typings/review-form-data';
 import { loadOffers, setOffersDataLoadingStatus, updateFavorites } from './offers-data/offers-data';
 import { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus } from './current-offer-data/current-offer-data';
-import { setAuthorizationStatus, setUserEmail } from './user-process/user-process';
+import { setAuthorizationStatus, setUserAvatarUrl, setUserEmail } from './user-process/user-process';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -84,9 +84,10 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   async (_arg, { dispatch, extra: api }) => {
     try {
       const response = await api.get(APIRoute.Login);
-      const data = response.data as { email: string };
+      const data = response.data as { email: string; avatarUrl: string };
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
       dispatch(setUserEmail(data.email));
+      dispatch(setUserAvatarUrl(data.avatarUrl));
     } catch {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
