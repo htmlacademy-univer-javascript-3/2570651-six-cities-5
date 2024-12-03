@@ -9,25 +9,35 @@ import ReviewSendingForm from '@components/review-sending-form/review-sending-fo
 import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
 import { AuthorizationStatus, MapClassName } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { fetchOfferInDetailsAction, toggleFavoriteStatusAction } from '@store/api-actions';
 import LoadingScreen from '@pages/loading-screen/loading-screen';
+import { getOffers } from '@store/offers-data/selectors';
+import { getNearbyOffers, getOfferInDetails, getOfferInDetailsDataLoadingStatus, getReviews } from '@store/current-offer-data/selectors';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
 
 export default function OfferScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  const offers = useAppSelector((state) => state.offers);
-  const { offerInfo, nearbyOffers, reviews } = useAppSelector((state) => state.selectedOffer);
-  const isOfferInDetailsDataLoading = useAppSelector((state) => state.isOfferInDetailsDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const mainOffer = offers.find((item) => item.id === id);
+  const offers = useAppSelector(getOffers);
 
-  const handleFavoriteClick = () => {
+  const offerInfo = useAppSelector(getOfferInDetails);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const reviews = useAppSelector(getReviews);
+
+  const isOfferInDetailsDataLoading = useAppSelector(getOfferInDetailsDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const mainOffer = useMemo(() => offers.find((item) => item.id === id), [offers, id]);
+  const memoizedNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
+
+  const handleFavoriteClick = useCallback(() => {
     if (mainOffer) {
       dispatch(toggleFavoriteStatusAction({ id: mainOffer.id, isFavorite: !mainOffer.isFavorite }));
     }
-  };
+  }, [dispatch, mainOffer]);
+
 
   useEffect(() => {
     if (id) {
@@ -138,9 +148,7 @@ export default function OfferScreen(): JSX.Element {
             className={MapClassName.Offer}
           />
         </section>
-        <div className="container">
-          <NearbyOffersList offers={nearbyOffers.slice(0, 3)}/>
-        </div>
+        <NearbyOffersList offers={memoizedNearbyOffers}/>
       </main>
     </div>
   );

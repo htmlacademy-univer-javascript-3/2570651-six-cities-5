@@ -97,3 +97,10 @@ export enum SortType {
   PriceHighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
+
+export enum NameSpace {
+  App = 'APP',
+  User = 'USER',
+  CurrentOffer = 'CURRENT_OFFER',
+  Offers = 'OFFERS',
+}

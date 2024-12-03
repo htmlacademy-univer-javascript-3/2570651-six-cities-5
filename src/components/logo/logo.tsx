@@ -1,6 +1,7 @@
 import { AppRoute } from '@const';
+import { memo } from 'react';
 
-export default function Logo(): JSX.Element {
+function Logo(): JSX.Element {
   return (
     <div className="header__left">
       <a className="header__logo-link" href={AppRoute.Root}>
@@ -9,3 +10,7 @@ export default function Logo(): JSX.Element {
     </div>
   );
 }
+
+const MemoizedLogo = memo(Logo);
+export default MemoizedLogo;
+

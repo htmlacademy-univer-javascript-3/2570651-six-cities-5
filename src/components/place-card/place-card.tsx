@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, CardImageWrapperClass, CardType } from '@const';
 import { toggleFavoriteStatusAction } from '@store/api-actions';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { memo, useCallback } from 'react';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -11,20 +13,19 @@ type PlaceCardProps = {
   cardType: CardType;
 }
 
-export default function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}: PlaceCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = useCallback(() => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.Login);
     } else {
       dispatch(toggleFavoriteStatusAction({ id: offer.id, isFavorite: !offer.isFavorite }));
     }
-  };
+  }, [authorizationStatus, navigate, dispatch, offer.id, offer.isFavorite]);
 
   return (
     <article className={`${cardType} place-card`}
@@ -73,3 +74,10 @@ export default function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}:
     </article>
   );
 }
+
+const MemoizedPlaceCard = memo(PlaceCard, (prevProps, nextProps) =>
+  prevProps.offer.id === nextProps.offer.id &&
+  prevProps.offer.isFavorite === nextProps.offer.isFavorite
+);
+
+export default MemoizedPlaceCard;

@@ -4,6 +4,7 @@ import Map from '@components/map/map';
 import { MapClassName } from '@const';
 import SortingOptions from '@components/sorting-options/sorting-options';
 import OffersList from '@components/offers-list/offers-list';
+import { memo } from 'react';
 
 type CityPlacesProps = {
   city: City;
@@ -12,7 +13,7 @@ type CityPlacesProps = {
   onActiveOfferChange: (offerId: string | null) => void;
 }
 
-export default function CityPlaces({city, offers, selectedOffer, onActiveOfferChange }: CityPlacesProps): JSX.Element {
+function CityPlaces({city, offers, selectedOffer, onActiveOfferChange }: CityPlacesProps): JSX.Element {
   return (
     <div className="cities__places-container container">
       <section className="cities__places places">
@@ -32,3 +33,6 @@ export default function CityPlaces({city, offers, selectedOffer, onActiveOfferCh
     </div>
   );
 }
+
+const MemoizedCityPlaces = memo(CityPlaces);
+export default MemoizedCityPlaces;

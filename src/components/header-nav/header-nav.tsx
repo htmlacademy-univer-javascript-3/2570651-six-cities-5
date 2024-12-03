@@ -2,18 +2,22 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
+import { memo, useCallback } from 'react';
+import { getOffers } from '@store/offers-data/selectors';
+import { getAuthorizationStatus, getUserEmail } from '@store/user-process/selectors';
 
-export default function HeaderNav(): JSX.Element {
+
+function HeaderNav(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector((state) => state.offers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const offers = useAppSelector(getOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userEmail = useAppSelector(getUserEmail);
   const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
-  const handleSignOut = () => {
+  const handleSignOut = useCallback(() => {
     dispatch(logoutAction());
-  };
+  }, [dispatch]);
 
   return (
     <nav className="header__nav">
@@ -47,3 +51,6 @@ export default function HeaderNav(): JSX.Element {
     </nav>
   );
 }
+
+const MemoizedHeaderNav = memo(HeaderNav);
+export default MemoizedHeaderNav;

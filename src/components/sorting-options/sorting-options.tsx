@@ -1,18 +1,23 @@
-import { useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { SortType } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { setSortType } from '@store/action';
+import { getSortType } from '@store/app-data/selectors';
+import { setSortType } from '@store/app-data/app-data';
 
-export default function SortingOptions(): JSX.Element {
+function SortingOptions(): JSX.Element {
   const dispatch = useAppDispatch();
-  const currentSortType = useAppSelector((state) => state.sortType);
+  const currentSortType = useAppSelector(getSortType);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOptionClick = (sortType: SortType) => {
-    dispatch(setSortType(sortType));
-    setIsOpen(false);
-  };
+  const handleOptionClick = useCallback(
+    (sortType: SortType) => {
+      dispatch(setSortType(sortType));
+      setIsOpen(false);
+    },
+    [dispatch]
+  );
 
+  const sortOptions = useMemo(() => Object.values(SortType), []);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -25,7 +30,7 @@ export default function SortingOptions(): JSX.Element {
       </span>
       {isOpen && (
         <ul className="places__options places__options--custom places__options--opened">
-          {Object.values(SortType).map((sortType) => (
+          {sortOptions.map((sortType) => (
             <li
               key={sortType}
               className={`places__option ${currentSortType === sortType ? 'places__option--active' : ''}`}
@@ -40,3 +45,6 @@ export default function SortingOptions(): JSX.Element {
     </form>
   );
 }
+
+const MemoizedSortingOptions = memo(SortingOptions);
+export default MemoizedSortingOptions;

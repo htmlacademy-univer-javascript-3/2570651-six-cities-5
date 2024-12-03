@@ -1,28 +1,27 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
-import { Offers } from '@typings/offer';
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import CitiesList from '@components/cities-list/cities-list';
 import { useAppSelector } from '@hooks/index';
 import { SortType } from '@const';
 import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
 import CityPlaces from '@components/city-places/city-places';
+import { getOffers } from '@store/offers-data/selectors';
+import { getCity, getSortType } from '@store/app-data/selectors';
 
 export default function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
-  const sortType = useAppSelector((state) => state.sortType);
-
-  const [currentCityOffers, setCurrentCityOffers] = useState<Offers>(offers);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const sortType = useAppSelector(getSortType);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const selectedOffer = offers.find((offer) => offer.id === activeOfferId);
+  const selectedOffer = useMemo(() => offers.find((offer) => offer.id === activeOfferId), [activeOfferId, offers]);
 
-  useEffect(() => {
+  const currentCityOffers = useMemo(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city.name);
 
-    const sortedOffers = [...filteredOffers].sort((a, b) => {
+    return [...filteredOffers].sort((a, b) => {
       switch (sortType) {
         case SortType.PriceLowToHigh:
           return a.price - b.price;
@@ -34,8 +33,6 @@ export default function MainScreen(): JSX.Element {
           return 0;
       }
     });
-
-    setCurrentCityOffers(sortedOffers);
   }, [city, offers, sortType]);
 
   return (
