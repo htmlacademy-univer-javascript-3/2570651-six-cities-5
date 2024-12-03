@@ -47,7 +47,7 @@ export default function MainScreen(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <HeaderNav offers={offers}/>
+            <HeaderNav/>
           </div>
         </div>
       </header>

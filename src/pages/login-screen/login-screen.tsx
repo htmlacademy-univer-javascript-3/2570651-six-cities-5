@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
-import { useAppDispatch } from '@hooks/index';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useEffect, useState } from 'react';
 import { fetchOffersAction, loginAction } from '@store/api-actions';
 import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '@const';
+import { AppRoute, AuthorizationStatus } from '@const';
+import { validatePassword } from '@components/validate-password/validate-password';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -12,12 +13,21 @@ export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Root);
+    }
+  }, [authorizationStatus, navigate]);
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (password.includes(' ')) {
-      setPasswordError('Password cannot contain spaces');
+    const error = validatePassword(password);
+
+    if (error) {
+      setPasswordError(error);
       return;
     }
 
