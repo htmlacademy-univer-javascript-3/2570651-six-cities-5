@@ -2,13 +2,15 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '@typings/state';
 import { Offer, Offers } from '@typings/offer';
-import { loadOfferInDetails, loadOffers, requireAuthorization, sendReview, setOfferInDetailsDataLoadingStatus, setOffersDataLoadingStatus, setUserEmail, updateOfferFavoriteStatus } from '@store/action';
 import {saveToken, dropToken} from '@services/token';
 import {APIRoute, AuthorizationStatus } from '@const';
 import {AuthData} from '@typings/auth-data';
 import { Review, Reviews, User } from '@typings/review';
 import { OfferInDetails } from '@typings/offerInDetails';
 import { ReviewFormData } from '@typings/review-form-data';
+import { loadOffers, setOffersDataLoadingStatus, updateFavoritesCount } from './offers-data/offers-data';
+import { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus } from './current-offer-data/current-offer-data';
+import { setAuthorizationStatus, setUserEmail } from './user-process/user-process';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -83,10 +85,10 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     try {
       const response = await api.get(APIRoute.Login);
       const data = response.data as { email: string };
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
       dispatch(setUserEmail(data.email));
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
   }
 );
@@ -100,7 +102,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<User>(APIRoute.Login, {email, password});
     saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(setUserEmail(email));
   },
 );
@@ -114,7 +116,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
   },
 );
 
@@ -128,6 +130,6 @@ export const toggleFavoriteStatusAction = createAsyncThunk<void,
     'offer/toggleFavoriteStatus',
     async ({ id, isFavorite }, { dispatch, extra: api }) => {
       const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${isFavorite ? 1 : 0}`);
-      dispatch(updateOfferFavoriteStatus({ id: data.id, isFavorite: data.isFavorite }));
+      dispatch(updateFavoritesCount({ id: data.id, isFavorite: data.isFavorite }));
     }
   );

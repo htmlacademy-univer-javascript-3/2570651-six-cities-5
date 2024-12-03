@@ -5,10 +5,11 @@ import FooterLogo from '@components/footer-logo/footer-logo';
 import FavoritesList from '@components/favorites-list/favorites-list';
 import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
 import { memo, useMemo } from 'react';
+import { getOffers } from '@store/offers-data/selectors';
 
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
 
   const favorites = useMemo(() => offers.filter((offer) => offer.isFavorite), [offers]);
 

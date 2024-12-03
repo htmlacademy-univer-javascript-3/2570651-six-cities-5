@@ -7,11 +7,13 @@ import { useAppSelector } from '@hooks/index';
 import { SortType } from '@const';
 import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
 import CityPlaces from '@components/city-places/city-places';
+import { getOffers } from '@store/offers-data/selectors';
+import { getCity, getSortType } from '@store/app-data/selectors';
 
 export default function MainScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
-  const sortType = useAppSelector((state) => state.sortType);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const sortType = useAppSelector(getSortType);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const selectedOffer = useMemo(() => offers.find((offer) => offer.id === activeOfferId), [activeOfferId, offers]);

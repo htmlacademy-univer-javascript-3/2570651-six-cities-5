@@ -1,8 +1,8 @@
 import { memo, useCallback, useState } from 'react';
 import { useAppDispatch } from '@hooks/index';
-import { changeCity } from '@store/action';
 import { City } from '@typings/city';
 import { Cities } from '@const';
+import { changeCity } from '@store/app-data/app-data';
 
 function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();

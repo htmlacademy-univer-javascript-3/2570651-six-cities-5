@@ -6,6 +6,7 @@ import { fetchOffersAction, loginAction } from '@store/api-actions';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
 import { validatePassword } from '@components/validate-password/validate-password';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {

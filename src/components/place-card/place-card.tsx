@@ -4,6 +4,7 @@ import { AppRoute, AuthorizationStatus, CardImageWrapperClass, CardType } from '
 import { toggleFavoriteStatusAction } from '@store/api-actions';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { memo, useCallback } from 'react';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -16,7 +17,7 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}: PlaceCardProps
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const handleFavoriteClick = useCallback(() => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {

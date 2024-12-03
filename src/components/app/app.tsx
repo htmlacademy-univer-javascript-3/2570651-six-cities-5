@@ -11,10 +11,12 @@ import FavoritesScreen from '@pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 import { useAppSelector } from '@hooks/index';
 import LoadingScreen from '@pages/loading-screen/loading-screen';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
+import { getOffersDataLoadingStatus } from '@store/offers-data/selectors';
 
 export default function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (

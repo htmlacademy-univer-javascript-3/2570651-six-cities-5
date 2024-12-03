@@ -12,18 +12,24 @@ import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { useCallback, useEffect, useMemo } from 'react';
 import { fetchOfferInDetailsAction, toggleFavoriteStatusAction } from '@store/api-actions';
 import LoadingScreen from '@pages/loading-screen/loading-screen';
+import { getOffers } from '@store/offers-data/selectors';
+import { getNearbyOffers, getOfferInDetails, getOfferInDetailsDataLoadingStatus, getReviews } from '@store/current-offer-data/selectors';
+import { getAuthorizationStatus } from '@store/user-process/selectors';
 
 export default function OfferScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  const offers = useAppSelector((state) => state.offers);
-  const { offerInfo, nearbyOffers, reviews } = useAppSelector((state) => state.selectedOffer);
-  const isOfferInDetailsDataLoading = useAppSelector((state) => state.isOfferInDetailsDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offers = useAppSelector(getOffers);
+
+  const offerInfo = useAppSelector(getOfferInDetails);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const reviews = useAppSelector(getReviews);
+
+  const isOfferInDetailsDataLoading = useAppSelector(getOfferInDetailsDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const mainOffer = useMemo(() => offers.find((item) => item.id === id), [offers, id]);
-
   const memoizedNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
 
   const handleFavoriteClick = useCallback(() => {

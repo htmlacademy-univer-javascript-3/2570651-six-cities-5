@@ -3,14 +3,16 @@ import { AppRoute, AuthorizationStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
 import { memo, useCallback } from 'react';
+import { getOffers } from '@store/offers-data/selectors';
+import { getAuthorizationStatus, getUserEmail } from '@store/user-process/selectors';
 
 
 function HeaderNav(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector((state) => state.offers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const offers = useAppSelector(getOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userEmail = useAppSelector(getUserEmail);
   const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
   const handleSignOut = useCallback(() => {

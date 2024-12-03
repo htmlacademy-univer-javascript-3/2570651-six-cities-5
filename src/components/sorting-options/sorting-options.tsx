@@ -1,11 +1,12 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import { SortType } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { setSortType } from '@store/action';
+import { getSortType } from '@store/app-data/selectors';
+import { setSortType } from '@store/app-data/app-data';
 
 function SortingOptions(): JSX.Element {
   const dispatch = useAppDispatch();
-  const currentSortType = useAppSelector((state) => state.sortType);
+  const currentSortType = useAppSelector(getSortType);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionClick = useCallback(
