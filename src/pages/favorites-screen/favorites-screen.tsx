@@ -10,10 +10,8 @@ import { getOffers } from '@store/offers-data/selectors';
 
 function FavoritesScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
-
   const favorites = useMemo(() => offers.filter((offer) => offer.isFavorite), [offers]);
-
-  const cities = useMemo(() => Array.from(new Set(favorites.map((offer) => offer.city.name))).sort(), [favorites]);
+  const cities = useMemo(() => [...new Set(favorites.map((offer) => offer.city.name))].sort(), [favorites]);
 
   return (
     <div className="page">
@@ -26,7 +24,7 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </header>
 
-      {cities.length > 0 ? (
+      {favorites.length > 0 ? (
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">

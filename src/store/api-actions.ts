@@ -9,7 +9,7 @@ import { Review, Reviews, User } from '@typings/review';
 import { OfferInDetails } from '@typings/offerInDetails';
 import { ReviewFormData } from '@typings/review-form-data';
 import { loadOffers, setOffersDataLoadingStatus, updateFavorites } from './offers-data/offers-data';
-import { loadOfferInDetails, sendReview, setOfferInDetailsDataLoadingStatus } from './current-offer-data/current-offer-data';
+import { loadOfferInDetails, sendReview as submitReview, setOfferInDetailsDataLoadingStatus } from './current-offer-data/current-offer-data';
 import { setAuthorizationStatus, setUserAvatarUrl, setUserEmail } from './user-process/user-process';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -55,7 +55,7 @@ export const fetchOfferInDetailsAction = createAsyncThunk<void,
   );
 
 
-export const sendReviewAction = createAsyncThunk<void,
+export const submitReviewAction = createAsyncThunk<void,
   {
     review: ReviewFormData;
     id: string;
@@ -65,14 +65,14 @@ export const sendReviewAction = createAsyncThunk<void,
     state: State;
     extra: AxiosInstance;
   }>(
-    'user/sendReview',
+    'user/submitReview',
     async ({ review, id }, { dispatch, extra: api }) => {
       const { data: responseReview } = await api.post<Review>(`${APIRoute.Comments}/${id}`,
         {
           comment: review.review,
           rating: review.rating,
         });
-      dispatch(sendReview(responseReview));
+      dispatch(submitReview(responseReview));
     });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -122,14 +122,14 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const toggleFavoriteStatusAction = createAsyncThunk<void,
+export const updateFavoriteStatusAction = createAsyncThunk<void,
   { id: string; isFavorite: boolean },
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }>(
-    'offer/toggleFavoriteStatus',
+    'offer/updateFavoriteStatus',
     async ({ id, isFavorite }, { dispatch, extra: api }) => {
       const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${isFavorite ? 1 : 0}`);
       dispatch(updateFavorites({ id: data.id, isFavorite: data.isFavorite }));

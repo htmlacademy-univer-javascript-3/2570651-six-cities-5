@@ -1,16 +1,16 @@
 import Logo from '@components/logo/logo';
 import HeaderNav from '@components/header-nav/header-nav';
 import { Helmet } from 'react-helmet-async';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import NotFoundScreen from '@pages/not-found-screen/not-found-screen';
 import ReviewsList from '@components/review-list/review-list';
 import Map from '@components/map/map';
 import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
-import { AuthorizationStatus, MapClassName } from '@const';
+import { AppRoute, AuthorizationStatus, MapClassName } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { useCallback, useEffect, useMemo } from 'react';
-import { fetchOfferInDetailsAction, toggleFavoriteStatusAction } from '@store/api-actions';
+import { fetchOfferInDetailsAction, updateFavoriteStatusAction } from '@store/api-actions';
 import LoadingScreen from '@pages/loading-screen/loading-screen';
 import { getOffers } from '@store/offers-data/selectors';
 import { getNearbyOffers, getOfferInDetails, getOfferInDetailsDataLoadingStatus, getReviews } from '@store/current-offer-data/selectors';
@@ -19,6 +19,7 @@ import { Offer } from '@typings/offer';
 
 export default function OfferScreen(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const offers = useAppSelector(getOffers);
@@ -36,10 +37,13 @@ export default function OfferScreen(): JSX.Element {
     .filter((offer): offer is Offer => offer !== undefined).slice(0, 3), [nearbyOffers, offers]);
 
   const handleFavoriteClick = useCallback(() => {
-    if (currentOffer) {
-      dispatch(toggleFavoriteStatusAction({ id: currentOffer.id, isFavorite: !currentOffer.isFavorite }));
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
+      navigate(AppRoute.Login);
+    } else if (currentOffer) {
+      dispatch(updateFavoriteStatusAction({ id: currentOffer.id, isFavorite: !currentOffer.isFavorite }));
     }
-  }, [dispatch, currentOffer]);
+  }, [authorizationStatus, navigate, dispatch, currentOffer]);
+
 
   useEffect(() => {
     if (id) {

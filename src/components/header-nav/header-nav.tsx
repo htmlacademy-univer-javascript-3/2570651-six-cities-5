@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { getOffers } from '@store/offers-data/selectors';
 import { getAuthorizationStatus, getAvatarUrl, getUserEmail } from '@store/user-process/selectors';
 
@@ -14,7 +14,8 @@ function HeaderNav(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userEmail = useAppSelector(getUserEmail);
   const avatarUrl = useAppSelector(getAvatarUrl);
-  const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
+
+  const favoritesCount = useMemo(() => offers.filter((offer) => offer.isFavorite).length, [offers]);
 
   const handleSignOut = useCallback(() => {
     dispatch(logoutAction());
