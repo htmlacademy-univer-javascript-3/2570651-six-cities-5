@@ -2,6 +2,7 @@ import { Offers } from '@typings/offer';
 import PlaceCard from '@components/place-card/place-card';
 import { CardType } from '@const';
 import { memo } from 'react';
+import styles from './nearby-offers-list.module.css';
 
 type NearbyOffersListProps = {
   offers: Offers | undefined;
@@ -24,7 +25,7 @@ function NearbyOffersList({ offers }: NearbyOffersListProps): JSX.Element {
               />
             ))
           ) : (
-            <p style={{ textAlign: 'center', fontSize: '32px' }}>No places in the neighbourhood available</p>
+            <p className={styles.places__empty}>No places in the neighbourhood available</p>
           )}
         </div>
       </section>

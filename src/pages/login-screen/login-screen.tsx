@@ -3,17 +3,24 @@ import Logo from '@components/logo/logo';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { useEffect, useState } from 'react';
 import { fetchOffersAction, loginAction } from '@store/api-actions';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@const';
-import { validatePassword } from '@components/validate-password/validate-password';
 import { getAuthorizationStatus } from '@store/user-process/selectors';
+import { toast } from 'react-toastify';
+
+const validatePassword = (password: string): boolean => {
+  const hasSpaces = password.includes(' ');
+  const hasLetter = /[a-zA-Z]/.test(password);
+  const hasDigit = /\d/.test(password);
+
+  return !hasSpaces && hasLetter && hasDigit;
+};
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState<string>('');
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
@@ -25,14 +32,10 @@ export default function LoginScreen(): JSX.Element {
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const error = validatePassword(password);
-
-    if (error) {
-      setPasswordError(error);
+    if (!validatePassword(password)) {
+      toast.warn('Password must contain at least one English letter, one number and no spaces');
       return;
     }
-
-    setPasswordError('');
 
     dispatch(loginAction({ login: email, password })).then(() => {
       dispatch(fetchOffersAction());
@@ -69,16 +72,15 @@ export default function LoginScreen(): JSX.Element {
                 <input className="login__input form__input" type="password" name="password" placeholder="Password"
                   value={password} onChange={(e) => setPassword(e.target.value)} required
                 />
-                {passwordError && <div style={{ color: 'red', marginTop: '5px' }}>{passwordError}</div>}
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to={AppRoute.Root}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

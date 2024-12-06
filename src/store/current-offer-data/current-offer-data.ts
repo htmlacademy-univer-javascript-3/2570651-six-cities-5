@@ -9,7 +9,7 @@ const initialState: CurrentOfferData = {
   offerInfo: null,
   nearbyOffers: [],
   reviews: [],
-  isOfferInDetailsDataLoading: false
+  isOfferInDetailsDataLoading: false,
 };
 
 export const currentOfferData = createSlice({

@@ -6,7 +6,7 @@ import { changeCity } from '@store/app-data/app-data';
 
 function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [activeCity, setActiveCity] = useState<City | null>(Cities[0]);
+  const [activeCity, setActiveCity] = useState<City>(Cities[0]);
 
   const handleCityChange = useCallback((city: City) => {
     setActiveCity(city);
