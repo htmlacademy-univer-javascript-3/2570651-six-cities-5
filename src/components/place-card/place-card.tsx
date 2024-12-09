@@ -1,7 +1,7 @@
 import { Offer } from '@typings/offer';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, CardImageWrapperClass, CardType } from '@const';
-import { toggleFavoriteStatusAction } from '@store/api-actions';
+import { updateFavoriteStatusAction } from '@store/api-actions';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { memo, useCallback } from 'react';
 import { getAuthorizationStatus } from '@store/user-process/selectors';
@@ -23,7 +23,7 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave, cardType}: PlaceCardProps
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.Login);
     } else {
-      dispatch(toggleFavoriteStatusAction({ id: offer.id, isFavorite: !offer.isFavorite }));
+      dispatch(updateFavoriteStatusAction({ id: offer.id, isFavorite: !offer.isFavorite }));
     }
   }, [authorizationStatus, navigate, dispatch, offer.id, offer.isFavorite]);
 

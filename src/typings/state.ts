@@ -15,6 +15,7 @@ export type AppData = {
 export type UserProcess = {
     authorizationStatus: AuthorizationStatus;
     userEmail: string | null;
+    userAvatarUrl: string | null;
 };
 
 export type CurrentOfferData = {

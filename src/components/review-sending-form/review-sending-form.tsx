@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@hooks/index';
-import { sendReviewAction } from '@store/api-actions';
+import { submitReviewAction } from '@store/api-actions';
 import { ReviewFormData } from '@typings/review-form-data';
 import React, { memo, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -37,7 +37,7 @@ function ReviewSendingForm(): JSX.Element {
 
       setIsSubmitting(true);
 
-      dispatch(sendReviewAction({ review: { review, rating }, id }))
+      dispatch(submitReviewAction({ review: { review, rating }, id }))
         .unwrap()
         .then(() => setFormData({ review: '', rating: 0 }))
         .catch(() => setErrorMessage('Failed to submit review. Please try again.'))
