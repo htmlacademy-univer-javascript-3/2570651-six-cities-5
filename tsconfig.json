@@ -5,7 +5,7 @@
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
       "@typings/*": ["src/typings/*"],
-      "@mocks/*": ["src/mocks/*"],
+      "@utils/*": ["src/utils/*"],
       "@const": ["src/const"],
       "@browser-history": ["src/browser-history"],
       "@hooks/*": ["src/hooks/*"],

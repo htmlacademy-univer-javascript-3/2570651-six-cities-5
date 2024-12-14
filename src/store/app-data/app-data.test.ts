@@ -1,5 +1,5 @@
 import { appData, changeCity, setSortType } from './app-data';
-import { Cities, SortType } from '../../const';
+import { Cities, SortType } from '@const';
 import { describe, expect, it } from 'vitest';
 
 const initialState = {

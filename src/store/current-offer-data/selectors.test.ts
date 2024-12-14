@@ -1,15 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { getOfferInDetails, getNearbyOffers, getReviews, getOfferInDetailsDataLoadingStatus } from './selectors';
-import { State } from '@typings/state';
-import { mockAppState, mockCurrentOfferState, mockOffersState, mockUserState } from '@mocks/state-mocks';
+import { makeFakeState } from '@utils/mocks';
 
 describe('Selectors: currentOfferData', () => {
-  const state: State = {
-    APP: mockAppState,
-    USER: mockUserState,
-    CURRENT_OFFER: mockCurrentOfferState,
-    OFFERS: mockOffersState,
-  };
+  const state = makeFakeState();
 
   it('should return offer details', () => {
     expect(getOfferInDetails(state)).toEqual(state.CURRENT_OFFER.offerInfo);

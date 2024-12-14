@@ -13,7 +13,7 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@typings': path.resolve(__dirname, 'src/typings'),
-      '@mocks': path.resolve(__dirname, 'src/mocks'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
       '@const': path.resolve(__dirname, 'src/const'),
       '@browser-history': path.resolve(__dirname, 'src/browser-history'),
       "@hooks": path.resolve(__dirname, 'src/hooks'),

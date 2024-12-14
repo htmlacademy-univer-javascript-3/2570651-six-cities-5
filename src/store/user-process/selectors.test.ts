@@ -1,16 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { getAuthorizationStatus, getUserEmail, getAvatarUrl } from './selectors';
-import { State } from '@typings/state';
 import { AuthorizationStatus } from '@const';
-import { mockAppState, mockCurrentOfferState, mockOffersState, mockUserState } from '@mocks/state-mocks';
+import { makeFakeState } from '@utils/mocks';
 
 describe('Selectors: userProcess', () => {
-  const state: State = {
-    APP: mockAppState,
-    USER: mockUserState,
-    CURRENT_OFFER: mockCurrentOfferState,
-    OFFERS: mockOffersState,
-  };
+  const state = makeFakeState();
 
   it('should return the current authorization status', () => {
     expect(getAuthorizationStatus(state)).toBe(AuthorizationStatus.Auth);

@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import CityPlacesEmpty from "./city-places-empty";
-import { Cities } from "@const";
+import { render, screen } from '@testing-library/react';
+import CityPlacesEmpty from './city-places-empty';
+import { Cities } from '@const';
 
 describe('CityPlacesEmpty', () => {
   Cities.forEach((city) => {
