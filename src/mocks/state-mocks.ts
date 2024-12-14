@@ -5,7 +5,6 @@ import { mockNearbyOffers, mockOfferInfo, mockOffers, mockReviews } from './mock
 export const mockAppState: AppData = {
   city: Cities[2],
   sortType: SortType.PriceHighToLow,
-  error: 'Test error',
 };
 
 export const mockCurrentOfferState: CurrentOfferData = {

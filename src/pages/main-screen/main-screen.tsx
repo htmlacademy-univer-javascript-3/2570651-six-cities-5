@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import CitiesList from '@components/cities-list/cities-list';
 import { useAppSelector } from '@hooks/index';
 import { SortType } from '@const';
-import CityPlacesEmpty from '@components/city-places-empty/city-place-empty';
+import CityPlacesEmpty from '@components/city-places-empty/city-places-empty';
 import CityPlaces from '@components/city-places/city-places';
 import { getOffers } from '@store/offers-data/selectors';
 import { getCity, getSortType } from '@store/app-data/selectors';
