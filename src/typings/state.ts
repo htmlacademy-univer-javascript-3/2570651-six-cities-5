@@ -9,7 +9,6 @@ import { City } from './city';
 export type AppData = {
     city: City;
     sortType: SortType;
-    error: string | null;
 };
 
 export type UserProcess = {

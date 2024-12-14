@@ -6,7 +6,6 @@ import { City } from '@typings/city.ts';
 const initialState: AppData = {
   city: Cities[0],
   sortType: SortType.Popular,
-  error: null,
 };
 
 export const appData = createSlice({
@@ -19,10 +18,7 @@ export const appData = createSlice({
     setSortType: (state, action: PayloadAction<SortType>) => {
       state.sortType = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
   },
 });
 
-export const { changeCity, setSortType, setError } = appData.actions;
+export const { changeCity, setSortType } = appData.actions;
