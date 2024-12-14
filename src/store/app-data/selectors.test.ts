@@ -1,4 +1,4 @@
-import { getCity, getSortType, getError } from './selectors';
+import { getCity, getSortType } from './selectors';
 import { describe, expect, it } from 'vitest';
 import { mockAppState, mockCurrentOfferState, mockOffersState, mockUserState } from '@mocks/state-mocks';
 import { State } from '@typings/state';
@@ -18,9 +18,5 @@ describe('Selectors: appData', () => {
 
   it('should return the current sortType', () => {
     expect(getSortType(state)).toBe(SortType.PriceHighToLow);
-  });
-
-  it('should return the current error', () => {
-    expect(getError(state)).toBe('Test error');
   });
 });
