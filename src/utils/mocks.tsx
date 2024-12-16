@@ -1,6 +1,7 @@
+import { name, random, lorem, internet, date, datatype, image } from 'faker';
 import { OfferInDetails } from '@typings/offerInDetails';
 import { Offers } from '@typings/offer';
-import { Review, Reviews } from '@typings/review';
+import { Reviews } from '@typings/review';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { State } from '@typings/state';
 import { createAPI } from '@services/api';
@@ -8,88 +9,54 @@ import { AuthorizationStatus, Cities, SortType } from '@const';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
-const generateId = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
 export const makeFakeOffer = (): Offers[number] => ({
-  id: generateId(),
-  title: 'Tile House',
-  type: 'house',
-  price: Math.floor(Math.random() * 1000) + 100,
-  previewImage: 'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
-  city: {
-    name: 'Paris',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13,
-    },
-  },
+  id: datatype.uuid(),
+  title: lorem.words(3),
+  type: random.arrayElement(['apartment', 'room', 'house', 'hotel']),
+  price: datatype.number({ min: 50, max: 1000 }),
+  previewImage: image.imageUrl(),
+  city: random.arrayElement(Cities),
   location: {
-    latitude: 48.868610000000004,
-    longitude: 2.342499,
-    zoom: 16,
+    latitude: datatype.float({ min: 48.8, max: 49.0, precision: 0.000001 }),
+    longitude: datatype.float({ min: 2.3, max: 2.4, precision: 0.000001 }),
+    zoom: datatype.number({ min: 12, max: 16 })
   },
-  isFavorite: Math.random() > 0.5,
-  isPremium: Math.random() > 0.5,
-  rating: parseFloat((Math.random() * 5).toFixed(1)),
+  isFavorite: datatype.boolean(),
+  isPremium: datatype.boolean(),
+  rating: datatype.float({ min: 1, max: 5, precision: 0.1 })
 });
 
 export const makeFakeOfferDetails = (): OfferInDetails => ({
-  id: generateId(),
-  title: 'Tile House',
-  type: 'house',
-  price: Math.floor(Math.random() * 1000) + 100,
-  city: {
-    name: 'Paris',
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 13,
-    },
-  },
-  location: {
-    latitude: 48.868610000000004,
-    longitude: 2.342499,
-    zoom: 16,
-  },
-  isFavorite: Math.random() > 0.5,
-  isPremium: Math.random() > 0.5,
-  rating: parseFloat((Math.random() * 5).toFixed(1)),
-  description:
-    'I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!',
-  bedrooms: Math.floor(Math.random() * 5) + 1,
-  maxAdults: Math.floor(Math.random() * 5) + 1,
-  goods: ['Washing machine', 'Fridge', 'Kitchen', 'Washer', 'Dishwasher'],
+  ...makeFakeOffer(),
+  description: lorem.paragraph(),
+  bedrooms: datatype.number({ min: 1, max: 5 }),
+  maxAdults: datatype.number({ min: 1, max: 8 }),
+  goods: Array.from(
+    { length: datatype.number({ min: 3, max: 8 }) },
+    () => random.arrayElement(['Washing machine', 'Dishwasher', 'Coffee maker', 'Fridge', 'Kitchen', 'TV', 'Air conditioning'])
+  ),
   host: {
-    name: 'Angelina',
-    avatarUrl:
-      'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg',
-    isPro: Math.random() > 0.5,
-    email: 'angelina@example.com',
-    token: 'G9erytRgDFcfse4feaGfsDSdrO1li21=',
+    name: name.findName(),
+    avatarUrl: internet.avatar(),
+    isPro: datatype.boolean(),
+    email: internet.email(),
+    token: datatype.uuid()
   },
-  images: [
-    'https://14.design.htmlacademy.pro/static/hotel/9.jpg',
-    'https://14.design.htmlacademy.pro/static/hotel/2.jpg',
-    'https://14.design.htmlacademy.pro/static/hotel/8.jpg',
-    'https://14.design.htmlacademy.pro/static/hotel/4.jpg',
-    'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
-    'https://14.design.htmlacademy.pro/static/hotel/3.jpg',
-  ],
+  images: Array.from({ length: 6 }, () => image.imageUrl())
 });
 
 export const makeFakeReview = (): Reviews[number] => ({
-  id: generateId(),
-  date: new Date().toISOString(),
+  id: datatype.uuid(),
+  date: date.recent().toISOString(),
   user: {
-    name: 'Jane',
-    avatarUrl: 'avatar2.jpg',
-    isPro: Math.random() > 0.5,
-    email: 'jane@example.com',
-    token: 'Z3drmeEpSNmcse3kseRglADpcE3pj13=',
+    name: name.findName(),
+    avatarUrl: internet.avatar(),
+    isPro: datatype.boolean(),
+    email: internet.email(),
+    token: datatype.uuid()
   },
-  comment: 'Nice hotel',
-  rating: parseFloat((Math.random() * 5).toFixed(1)),
+  comment: lorem.sentence(),
+  rating: datatype.float({ min: 1, max: 5, precision: 0.1 })
 });
 
 export const makeFakeReviews = (count = 5): Reviews =>
@@ -101,27 +68,11 @@ export const makeFakeOffers = (count = 5): Offers =>
 export const makeFakeNearbyOffers = (count = 3): Offers =>
   makeFakeOffers(count);
 
-export const makeFakeNewReview = (): Review => ({
-  id: generateId(),
-  date: new Date().toISOString(),
-  user: {
-    name: 'Mark',
-    avatarUrl: 'avatar3.jpg',
-    isPro: false,
-    email: 'mark@example.com',
-    token: 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=',
-  },
-  comment: 'Amazing hotel woow',
-  rating: 5,
-});
-
-export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
-
 export const makeFakeState = (initialState?: Partial<State>): State => ({
   USER: {
     authorizationStatus: AuthorizationStatus.Auth,
     userEmail: 'test@example.com',
-    userAvatarUrl: 'avatar.png',
+    userAvatarUrl: 'avatar.png'
   },
   APP: {
     city: Cities[2],
@@ -131,12 +82,15 @@ export const makeFakeState = (initialState?: Partial<State>): State => ({
     offerInfo: makeFakeOfferDetails(),
     nearbyOffers: makeFakeNearbyOffers(3),
     reviews: makeFakeReviews(5),
-    isOfferInDetailsDataLoading: true,
+    isOfferInDetailsDataLoading: false
   },
   OFFERS: {
     offers: makeFakeOffers(10),
     favoritesCount: 1,
-    isOffersDataLoading: true,
+    isOffersDataLoading: false
   },
-  ...initialState,
+  ...initialState
 });
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+  actions.map(({ type }) => type);

@@ -18,6 +18,6 @@ describe('Selectors: currentOfferData', () => {
   });
 
   it('should return the loading status of offer details', () => {
-    expect(getOfferInDetailsDataLoadingStatus(state)).toBe(true);
+    expect(getOfferInDetailsDataLoadingStatus(state)).toBe(false);
   });
 });
