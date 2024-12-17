@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { offersData, loadOffers, setOffersDataLoadingStatus, updateFavorites } from './offers-data';
-import { mockOffers } from '@mocks/mocks';
+import { makeFakeOffers } from '@utils/mocks';
 
 const initialState = {
   offers: [],
@@ -15,27 +15,36 @@ describe('Reducer: offersData', () => {
   });
 
   it('should load offers when loadOffers action is dispatched', () => {
-    const action = loadOffers(mockOffers);
+    const fakeOffers = makeFakeOffers(5);
+    const action = loadOffers(fakeOffers);
     const result = offersData.reducer(initialState, action);
-    expect(result.offers).toEqual(mockOffers);
+
+    expect(result.offers).toEqual(fakeOffers);
   });
 
   it('should update loading status when setOffersDataLoadingStatus action is dispatched', () => {
     const action = setOffersDataLoadingStatus(true);
     const result = offersData.reducer(initialState, action);
+
     expect(result.isOffersDataLoading).toBe(true);
   });
 
   it('should update favorites and recalculate favoritesCount when updateFavorites action is dispatched', () => {
+    const fakeOffers = makeFakeOffers(3);
+    fakeOffers[0].id = '1';
+    fakeOffers[0].isFavorite = false;
+
     const stateWithOffers = {
       ...initialState,
-      offers: mockOffers,
+      offers: fakeOffers,
     };
 
     const action = updateFavorites({ id: '1', isFavorite: true });
     const result = offersData.reducer(stateWithOffers, action);
 
+    const expectedFavoritesCount = result.offers.filter((offer) => offer.isFavorite).length;
+
     expect(result.offers[0].isFavorite).toBe(true);
-    expect(result.favoritesCount).toBe(1);
+    expect(result.favoritesCount).toBe(expectedFavoritesCount);
   });
 });

@@ -1,6 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import HistoryRouter from '@components/history-route/history-route';
-import browserHistory from '@browser-history';
 import {HelmetProvider} from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '@const';
 import PrivateRoute from '@components/private-route/private-route';
@@ -26,36 +24,34 @@ export default function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route
-            path={AppRoute.Root}
-            element={<MainScreen/>}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<LoginScreen/>}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <FavoritesScreen/>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={<OfferScreen/>}
-          />
-          <Route
-            path='*'
-            element={<NotFoundScreen />}
-          />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Root}
+          element={<MainScreen/>}
+        />
+        <Route
+          path={AppRoute.Login}
+          element={<LoginScreen/>}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <FavoritesScreen/>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Offer}/:id`}
+          element={<OfferScreen/>}
+        />
+        <Route
+          path='*'
+          element={<NotFoundScreen />}
+        />
+      </Routes>
     </HelmetProvider>
   );
 }

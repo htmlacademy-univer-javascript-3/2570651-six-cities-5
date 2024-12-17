@@ -1,16 +1,10 @@
 import { getCity, getSortType } from './selectors';
 import { describe, expect, it } from 'vitest';
-import { mockAppState, mockCurrentOfferState, mockOffersState, mockUserState } from '@mocks/state-mocks';
-import { State } from '@typings/state';
 import { Cities, SortType } from '@const';
+import { makeFakeState } from '@utils/mocks';
 
 describe('Selectors: appData', () => {
-  const state: State = {
-    APP: mockAppState,
-    USER: mockUserState,
-    CURRENT_OFFER: mockCurrentOfferState,
-    OFFERS: mockOffersState,
-  };
+  const state = makeFakeState();
 
   it('should return the current city', () => {
     expect(getCity(state)).toBe(Cities[2]);
