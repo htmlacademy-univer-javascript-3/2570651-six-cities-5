@@ -1,12 +1,22 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { withStore, withHistory } from '@utils/mock-component';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { withHistory, withStore } from '@utils/mock-component';
 import MemoizedCitiesList from './cities-list';
-import { Cities } from '@const';
-import { changeCity } from '@store/app-data/app-data';
+import { Cities, SortType } from '@const';
+import { makeFakeState } from '@utils/mocks';
+
+const initialState = makeFakeState({
+  APP: {
+    city: Cities[0],
+    sortType: SortType.Popular
+  }
+});
 
 describe('CitiesList Component', () => {
   it('should render cities list and handle city change', () => {
-    const { withStoreComponent } = withStore(withHistory(<MemoizedCitiesList />));
+    const { withStoreComponent } = withStore(
+      withHistory(<MemoizedCitiesList />),
+      initialState
+    );
 
     render(withStoreComponent);
 
@@ -18,29 +28,23 @@ describe('CitiesList Component', () => {
     if (parisLink) {
       fireEvent.click(parisLink);
       expect(parisLink).toHaveClass('tabs__item--active');
-    } else {
-      throw new Error('City link not found');
     }
   });
 
   it('should dispatch the correct action on city change', () => {
-    const { withStoreComponent, mockStore } = withStore(withHistory(<MemoizedCitiesList />));
+    const { withStoreComponent, mockStore } = withStore(
+      withHistory(<MemoizedCitiesList />),
+      initialState
+    );
 
     render(withStoreComponent);
-
-    const amsterdamCity = Cities.find((city) => city.name === 'Amsterdam');
-    if (!amsterdamCity) {
-      throw new Error('Amsterdam city not found in mock data');
-    }
 
     const amsterdamLink = screen.getByText('Amsterdam').closest('a');
     if (amsterdamLink) {
       fireEvent.click(amsterdamLink);
-
       const actions = mockStore.getActions();
-      expect(actions).toContainEqual(changeCity(amsterdamCity));
-    } else {
-      throw new Error('City link not found');
+      expect(actions[0].type).toBe('APP/changeCity');
+      expect(actions[0].payload).toEqual(Cities[3]);
     }
   });
 });

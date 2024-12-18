@@ -1,15 +1,17 @@
-import { memo, useCallback, useState } from 'react';
-import { useAppDispatch } from '@hooks/index';
+import { memo, useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { City } from '@typings/city';
-import { Cities } from '@const';
+import { AppRoute, Cities } from '@const';
 import { changeCity } from '@store/app-data/app-data';
+import { getCity } from '@store/app-data/selectors';
+import { Link } from 'react-router-dom';
 
 function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [activeCity, setActiveCity] = useState<City>(Cities[0]);
+  const currentCity = useAppSelector(getCity);
 
-  const handleCityChange = useCallback((city: City) => {
-    setActiveCity(city);
+  const handleCityChange = useCallback((evt: React.MouseEvent, city: City) => {
+    evt.preventDefault();
     dispatch(changeCity(city));
   }, [dispatch]);
 
@@ -19,14 +21,14 @@ function CitiesList(): JSX.Element {
         <li
           key={city.name}
           className="locations__item"
-          onClick={() => handleCityChange(city)}
         >
-          <a
-            className={`locations__item-link tabs__item ${activeCity?.name === city.name ? 'tabs__item--active' : ''}`}
-            href="#"
+          <Link
+            className={`locations__item-link tabs__item ${currentCity?.name === city.name ? 'tabs__item--active' : ''}`}
+            to={AppRoute.Root}
+            onClick={(evt) => handleCityChange(evt, city)}
           >
             <span>{city.name}</span>
-          </a>
+          </Link>
         </li>
       ))}
     </ul>

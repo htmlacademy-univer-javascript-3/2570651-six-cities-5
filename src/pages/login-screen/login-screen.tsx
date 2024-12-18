@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '@components/logo/logo';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchOffersAction, loginAction } from '@store/api-actions';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '@const';
+import { AppRoute, AuthorizationStatus, Cities } from '@const';
 import { getAuthorizationStatus } from '@store/user-process/selectors';
 import { toast } from 'react-toastify';
+import { changeCity } from '@store/app-data/app-data';
 
 const validatePassword = (password: string): boolean => {
   const hasSpaces = password.includes(' ');
@@ -23,6 +24,15 @@ export default function LoginScreen(): JSX.Element {
   const [password, setPassword] = useState('');
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const handleCityClick = useCallback(() => {
+    const amsterdamCity = Cities.find((city) => city.name === 'Amsterdam');
+    if (amsterdamCity) {
+      dispatch(changeCity(amsterdamCity));
+      navigate(AppRoute.Root);
+    }
+  }, [dispatch, navigate]);
+
+
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       navigate(AppRoute.Root);
@@ -38,6 +48,7 @@ export default function LoginScreen(): JSX.Element {
     }
 
     dispatch(loginAction({ login: email, password })).then(() => {
+      dispatch(changeCity(Cities[0]));
       dispatch(fetchOffersAction());
       navigate(AppRoute.Root);
     });
@@ -78,7 +89,7 @@ export default function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Root}>
+              <Link className="locations__item-link" onClick={handleCityClick} to={AppRoute.Root}>
                 <span>Amsterdam</span>
               </Link>
             </div>

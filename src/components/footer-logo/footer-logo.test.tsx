@@ -1,10 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import { withHistory, withStore } from '@utils/mock-component';
 import FooterLogo from './footer-logo';
-import { AppRoute } from '@const';
+import { AppRoute, Cities } from '@const';
+import userEvent from '@testing-library/user-event';
 
 describe('FooterLogo component', () => {
   it('renders the footer logo correctly', () => {
-    render(<FooterLogo />);
+    const { withStoreComponent } = withStore(
+      withHistory(<FooterLogo />)
+    );
+
+    render(withStoreComponent);
 
     const logoImage = screen.getByAltText('6 cities logo');
     expect(logoImage).toBeInTheDocument();
@@ -14,9 +20,28 @@ describe('FooterLogo component', () => {
   });
 
   it('renders the footer logo link with the correct href', () => {
-    render(<FooterLogo />);
+    const { withStoreComponent } = withStore(
+      withHistory(<FooterLogo />)
+    );
+
+    render(withStoreComponent);
 
     const logoLink = screen.getByRole('link');
     expect(logoLink).toHaveAttribute('href', AppRoute.Root);
+  });
+
+  it('changes city to Paris on click', async () => {
+    const { withStoreComponent, mockStore } = withStore(
+      withHistory(<FooterLogo />)
+    );
+
+    render(withStoreComponent);
+
+    const logoLink = screen.getByRole('link');
+    await userEvent.click(logoLink);
+
+    const actions = mockStore.getActions();
+    expect(actions[0].type).toBe('APP/changeCity');
+    expect(actions[0].payload).toEqual(Cities[0]);
   });
 });
