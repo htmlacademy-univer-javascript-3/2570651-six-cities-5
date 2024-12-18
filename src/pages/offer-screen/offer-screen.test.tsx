@@ -76,7 +76,7 @@ describe('Component: OfferScreen', () => {
 
     const favoritesCount = offers.filter((offer) => offer.isFavorite).length;
 
-  
+
     const { withStoreComponent } = withStore(
       withHistory(<OfferScreen />, mockHistory),
       makeFakeState({
