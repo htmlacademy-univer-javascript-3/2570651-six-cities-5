@@ -7,7 +7,6 @@ import { getOffers } from '@store/offers-data/selectors';
 import { getAuthorizationStatus, getAvatarUrl, getUserEmail } from '@store/user-process/selectors';
 import { changeCity } from '@store/app-data/app-data';
 
-
 function HeaderNav(): JSX.Element {
   const dispatch = useAppDispatch();
 

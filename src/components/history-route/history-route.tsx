@@ -1,12 +1,14 @@
 import {useState, useLayoutEffect} from 'react';
 import {Router} from 'react-router-dom';
 import type {BrowserHistory} from 'history';
+
 export interface HistoryRouterProps {
   history: BrowserHistory;
   basename?: string;
   children?: React.ReactNode;
 }
-function HistoryRouter({
+
+export default function HistoryRouter({
   basename,
   children,
   history,
@@ -27,4 +29,3 @@ function HistoryRouter({
     </Router>
   );
 }
-export default HistoryRouter;

@@ -7,7 +7,6 @@ import styles from './nearby-offers-list.module.css';
 
 describe('Component: NearbyOffersList', () => {
   const mockOffers = makeFakeOffers(3);
-
   const initialState = makeFakeState();
 
   it('renders with offers correctly', () => {

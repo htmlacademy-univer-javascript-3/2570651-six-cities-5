@@ -4,11 +4,10 @@ import { useAppSelector } from '@hooks/index';
 import FooterLogo from '@components/footer-logo/footer-logo';
 import FavoritesList from '@components/favorites-list/favorites-list';
 import FavoritesEmpty from '@components/favorites-empty/favorites-empty';
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import { getOffers } from '@store/offers-data/selectors';
 
-
-function FavoritesScreen(): JSX.Element {
+export default function FavoritesScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const favorites = useMemo(() => offers.filter((offer) => offer.isFavorite), [offers]);
   const cities = useMemo(() => [...new Set(favorites.map((offer) => offer.city.name))].sort(), [favorites]);
@@ -41,6 +40,3 @@ function FavoritesScreen(): JSX.Element {
     </div>
   );
 }
-
-const MemoizedFavoritesScreen = memo(FavoritesScreen);
-export default MemoizedFavoritesScreen;

@@ -4,7 +4,6 @@ import ReviewsList from './review-list';
 import { makeFakeReviews, makeFakeState } from '@utils/mocks';
 import { Reviews } from '@typings/review';
 
-
 describe('Component: ReviewsList', () => {
   const initialState = makeFakeState();
   it('should display "No reviews available" message when there are no reviews', () => {

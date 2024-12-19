@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { withStore, withHistory } from '@utils/mock-component';
-import MemoizedHeaderNav from './header-nav';
+import HeaderNav from './header-nav';
 import { makeFakeState, makeFakeOffers, extractActionsTypes } from '@utils/mocks';
 import { AuthorizationStatus } from '@const';
 import { logoutAction } from '@store/api-actions';
@@ -21,7 +21,7 @@ describe('HeaderNav Component', () => {
       }
     });
 
-    const { withStoreComponent } = withStore(<MemoizedHeaderNav />, initialState);
+    const { withStoreComponent } = withStore(<HeaderNav />, initialState);
     render(withHistory(withStoreComponent));
 
     expect(screen.getByText('3')).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('HeaderNav Component', () => {
       }
     });
 
-    const { withStoreComponent } = withStore(<MemoizedHeaderNav />, initialState);
+    const { withStoreComponent } = withStore(<HeaderNav />, initialState);
     render(withHistory(withStoreComponent));
 
     expect(screen.getByText('0')).toBeInTheDocument();
@@ -57,7 +57,7 @@ describe('HeaderNav Component', () => {
       }
     });
 
-    const { withStoreComponent } = withStore(<MemoizedHeaderNav />, initialState);
+    const { withStoreComponent } = withStore(<HeaderNav />, initialState);
     render(withHistory(withStoreComponent));
 
     expect(screen.queryByText(/\d+/)).not.toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('HeaderNav Component', () => {
       }
     });
 
-    const { withStoreComponent, mockStore } = withStore(<MemoizedHeaderNav />, initialState);
+    const { withStoreComponent, mockStore } = withStore(<HeaderNav />, initialState);
     render(withHistory(withStoreComponent));
 
     const signOutButton = screen.getByText('Sign out');
@@ -94,7 +94,7 @@ describe('HeaderNav Component', () => {
       }
     });
 
-    const { withStoreComponent } = withStore(<MemoizedHeaderNav />, initialState);
+    const { withStoreComponent } = withStore(<HeaderNav />, initialState);
     render(withHistory(withStoreComponent));
 
     expect(screen.getByText('test@test.com')).toBeInTheDocument();

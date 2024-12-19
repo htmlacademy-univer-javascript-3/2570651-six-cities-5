@@ -16,7 +16,6 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-
 describe('Component: OfferScreen', () => {
   it('renders loading screen when data is loading', () => {
     const mockHistory = createMemoryHistory();

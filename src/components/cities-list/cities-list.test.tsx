@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { withHistory, withStore } from '@utils/mock-component';
-import MemoizedCitiesList from './cities-list';
+import CitiesList from './cities-list';
 import { Cities, SortType } from '@const';
 import { makeFakeState } from '@utils/mocks';
 
@@ -14,7 +14,7 @@ const initialState = makeFakeState({
 describe('CitiesList Component', () => {
   it('should render cities list and handle city change', () => {
     const { withStoreComponent } = withStore(
-      withHistory(<MemoizedCitiesList />),
+      withHistory(<CitiesList />),
       initialState
     );
 
@@ -33,7 +33,7 @@ describe('CitiesList Component', () => {
 
   it('should dispatch the correct action on city change', () => {
     const { withStoreComponent, mockStore } = withStore(
-      withHistory(<MemoizedCitiesList />),
+      withHistory(<CitiesList />),
       initialState
     );
 
