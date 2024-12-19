@@ -29,7 +29,6 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-
 export const fetchOfferInDetailsAction = createAsyncThunk<void,
   {
     id: string;
@@ -53,7 +52,6 @@ export const fetchOfferInDetailsAction = createAsyncThunk<void,
       }
     }
   );
-
 
 export const submitReviewAction = createAsyncThunk<void,
   {

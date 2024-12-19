@@ -5,7 +5,6 @@ import { AuthorizationStatus, SortType } from '@const';
 import { OfferInDetails } from './offerInDetails';
 import { City } from './city';
 
-
 export type AppData = {
     city: City;
     sortType: SortType;

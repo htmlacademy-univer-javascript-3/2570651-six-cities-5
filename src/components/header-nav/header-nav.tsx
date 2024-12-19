@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '@const';
+import { AppRoute, AuthorizationStatus, Cities } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { logoutAction } from '@store/api-actions';
 import { memo, useCallback, useMemo } from 'react';
 import { getOffers } from '@store/offers-data/selectors';
 import { getAuthorizationStatus, getAvatarUrl, getUserEmail } from '@store/user-process/selectors';
-
+import { changeCity } from '@store/app-data/app-data';
 
 function HeaderNav(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -18,7 +18,10 @@ function HeaderNav(): JSX.Element {
   const favoritesCount = useMemo(() => offers.filter((offer) => offer.isFavorite).length, [offers]);
 
   const handleSignOut = useCallback(() => {
-    dispatch(logoutAction());
+    dispatch(logoutAction())
+      .then(() => {
+        dispatch(changeCity(Cities[0]));
+      });
   }, [dispatch]);
 
   return (

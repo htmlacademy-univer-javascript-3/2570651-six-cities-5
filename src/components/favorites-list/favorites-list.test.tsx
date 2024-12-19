@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { withStore, withHistory } from '@utils/mock-component';
-import MemoizedFavoritesList from './favorites-list';
+import FavoritesList from './favorites-list';
 import { makeFakeState, makeFakeOffers } from '@utils/mocks';
 import { Cities } from '@const';
 
@@ -17,7 +17,7 @@ describe('FavoritesList Component', () => {
 
   it('should render the correct number of cities', () => {
     const { withStoreComponent } = withStore(
-      withHistory(<MemoizedFavoritesList cities={cities} favorites={fakeOffers} />),
+      withHistory(<FavoritesList cities={cities} favorites={fakeOffers} />),
       initialState
     );
 
@@ -27,7 +27,7 @@ describe('FavoritesList Component', () => {
 
   it('should render the correct number of favorite offers for each city', () => {
     const { withStoreComponent } = withStore(
-      withHistory(<MemoizedFavoritesList cities={cities} favorites={fakeOffers} />),
+      withHistory(<FavoritesList cities={cities} favorites={fakeOffers} />),
       initialState
     );
 
@@ -39,7 +39,7 @@ describe('FavoritesList Component', () => {
   it('should show no offers for a city with no favorites', () => {
     const emptyCity = Cities[1].name;
     const { withStoreComponent } = withStore(
-      withHistory(<MemoizedFavoritesList cities={[emptyCity]} favorites={[]} />),
+      withHistory(<FavoritesList cities={[emptyCity]} favorites={[]} />),
       initialState
     );
 
