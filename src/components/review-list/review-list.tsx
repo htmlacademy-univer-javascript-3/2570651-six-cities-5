@@ -1,4 +1,5 @@
 import ReviewItem from '@components/review-item/review-item';
+import { MAX_REVIEWS_COUNT } from '@const';
 import { Reviews } from '@typings/review';
 import { memo, useMemo } from 'react';
 
@@ -11,7 +12,7 @@ function ReviewsList({ reviews }: ReviewsListProps): JSX.Element {
     if (!reviews) {
       return [];
     }
-    return [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 10);
+    return [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_REVIEWS_COUNT);
   }, [reviews]);
 
   return (

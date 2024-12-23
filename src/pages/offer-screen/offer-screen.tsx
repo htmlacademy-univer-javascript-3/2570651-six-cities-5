@@ -7,7 +7,7 @@ import ReviewsList from '@components/review-list/review-list';
 import Map from '@components/map/map';
 import ReviewSendingForm from '@components/review-sending-form/review-sending-form';
 import NearbyOffersList from '@components/nearby-offers-list/nearby-offers-list';
-import { AppRoute, AuthorizationStatus, MapClassName } from '@const';
+import { AppRoute, AuthorizationStatus, MapClassName, MAX_NEARBY_OFFERS } from '@const';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { useCallback, useEffect, useMemo } from 'react';
 import { fetchOfferInDetailsAction, updateFavoriteStatusAction } from '@store/api-actions';
@@ -34,7 +34,7 @@ export default function OfferScreen(): JSX.Element {
 
   const memoizedNearbyOffers = useMemo(() => nearbyOffers.map((nearbyOffer) =>
     offers.find((offer) => offer.id === nearbyOffer.id))
-    .filter((offer): offer is Offer => offer !== undefined).slice(0, 3), [nearbyOffers, offers]);
+    .filter((offer): offer is Offer => offer !== undefined).slice(0, MAX_NEARBY_OFFERS), [nearbyOffers, offers]);
 
   const handleFavoriteClick = useCallback(() => {
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
@@ -109,7 +109,7 @@ export default function OfferScreen(): JSX.Element {
                 <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{offerInfo.type}</li>
+                <li className="offer__feature offer__feature--entire">{offerInfo.type[0].toUpperCase() + offerInfo.type.slice(1)}</li>
                 <li className="offer__feature offer__feature--bedrooms">{offerInfo.bedrooms} Bedrooms</li>
                 <li className="offer__feature offer__feature--adults">Max {offerInfo.maxAdults} adults</li>
               </ul>

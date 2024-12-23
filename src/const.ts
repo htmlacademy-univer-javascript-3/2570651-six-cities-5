@@ -23,6 +23,10 @@ export const URL_MARKER_DEFAULT = '/img/pin.svg';
 
 export const URL_MARKER_CURRENT = '/img/pin-active.svg';
 
+export const MAX_NEARBY_OFFERS = 3;
+
+export const MAX_REVIEWS_COUNT = 10;
+
 export enum CardType {
     Regular = 'cities__card',
     Nearest = 'near-places__card',
